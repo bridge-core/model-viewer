@@ -1,14 +1,14 @@
 import { Group, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { IGeoSchema } from './modelSchema';
-export declare class ModelViewer {
-    protected scene: Scene;
+export declare class ModelBuilder {
     protected model: Group;
-    constructor(scene: Scene, modelData: IGeoSchema, texturePath: string);
+    constructor(modelData: IGeoSchema, texturePath: string);
+    getModel(): Group;
 }
 export declare class StandaloneModelViewer {
     protected renderer: WebGLRenderer;
-    protected modelViewer: ModelViewer;
+    protected modelBuilder: ModelBuilder;
     protected scene: Scene;
     protected camera: PerspectiveCamera;
     protected renderingRequested: boolean;

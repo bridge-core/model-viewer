@@ -17,14 +17,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { Cube } from './Cube'
 import { IGeoSchema } from './modelSchema'
 
-export class ModelViewer {
+export class ModelBuilder {
 	protected model: Group
 
-	constructor(
-		protected scene: Scene,
-		modelData: IGeoSchema,
-		texturePath: string
-	) {
+	constructor(modelData: IGeoSchema, texturePath: string) {
 		const id = modelData.description?.identifier ?? 'geometry.unknown'
 		const textureSize: [number, number] = [
 			modelData.description?.texture_width ?? 128,
@@ -108,14 +104,16 @@ export class ModelViewer {
 					parentGroup.children[0].add(bone)
 				else if (parentGroup) parentGroup.add(bone)
 			}
+	}
 
-		this.scene.add(this.model)
+	getModel() {
+		return this.model
 	}
 }
 
 export class StandaloneModelViewer {
 	protected renderer: WebGLRenderer
-	protected modelViewer: ModelViewer
+	protected modelBuilder: ModelBuilder
 	protected scene: Scene
 	protected camera: PerspectiveCamera
 	protected renderingRequested = false
@@ -139,7 +137,8 @@ export class StandaloneModelViewer {
 		this.scene = new Scene()
 		this.scene.add(new AmbientLight(0xffffff))
 		this.scene.background = new Color(0xcaf0f8)
-		this.modelViewer = new ModelViewer(this.scene, modelData, texturePath)
+		this.modelBuilder = new ModelBuilder(modelData, texturePath)
+		this.scene.add(this.modelBuilder.getModel())
 
 		window.addEventListener('resize', this.onResize.bind(this))
 		this.controls.addEventListener(

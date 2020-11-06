@@ -1,0 +1,25 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		/* Basic Options */
+		"target": "ESNext",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"outDir": "./perf/",
+		"rootDir": "./lib/",
+		"composite": true,
+		"removeComments": true,
+		"sourceMap": false,
+		"declaration": true,
+
+		/* Strict Type-Checking Options */
+		"strict": true,
+		"strictFunctionTypes": true,
+		"noImplicitAny": true,
+
+		/* Additional Checks */
+		"esModuleInterop": true,
+		"resolveJsonModule": true
+	},
+	"types": ["node", "jest"]
+}

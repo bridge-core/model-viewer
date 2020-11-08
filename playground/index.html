@@ -17,144 +17,235 @@
 
 		<script src="../dist/main.web.js"></script>
 		<script>
+			const animation = {
+				loop: true,
+				animation_length: 2,
+				bones: {
+					body: {
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					left_front_leg: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [20, -10, -20],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					right_front_leg: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [20, 10, 20],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					left_back_leg: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [10, -15, -7],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					right_back_leg: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [10, 15, 7],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					head: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [10, 0, 0],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					tail: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							'1.0': [-15, 0, 0],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					left_wing: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							0.25: [0, -40, 0],
+							0.5: [0, 0, 0],
+							0.75: [0, -40, 0],
+							'1.0': [0, 0, 0],
+							1.25: [0, -40, 0],
+							1.75: [0, -40, 0],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+					right_wing: {
+						rotation: {
+							'0.0': [0, 0, 0],
+							0.25: [0, 40, 0],
+							0.4833: [0, 0, 0],
+							0.75: [0, 40, 0],
+							'1.0': [0, 0, 0],
+							1.25: [0, 40, 0],
+							1.75: [0, 40, 0],
+							'2.0': [0, 0, 0],
+						},
+						position: {
+							'0.0': [0, 0, 0],
+							'1.0': [0, 4, 0],
+							'2.0': [0, 0, 0],
+						},
+					},
+				},
+			}
 			const model = {
 				description: {
-					identifier: 'geometry.parrot',
-					texture_width: 32,
-					texture_height: 32,
+					identifier: 'geometry.pesky_dragon',
+					texture_width: 64,
+					texture_height: 64,
 				},
 
 				bones: [
 					{
-						name: 'head',
-						parent: 'body',
-						pivot: [0.0, 8.3, -2.8],
-						cubes: [
-							{
-								origin: [-1.0, 6.8, -3.8],
-								size: [2.0, 3.0, 2.0],
-								uv: [2, 2],
-							},
-						],
-					},
-					{
-						name: 'head2',
-						parent: 'head',
-						pivot: [0.0, 26.0, -1.0],
-						cubes: [
-							{
-								origin: [-1.0, 9.8, -5.8],
-								size: [2.0, 1.0, 4.0],
-								uv: [10, 0],
-							},
-						],
-					},
-					{
-						name: 'beak1',
-						parent: 'head',
-						pivot: [0.0, 24.5, -1.5],
-						cubes: [
-							{
-								origin: [-0.5, 7.8, -4.7],
-								size: [1.0, 2.0, 1.0],
-								uv: [11, 7],
-							},
-						],
-					},
-					{
-						name: 'beak2',
-						parent: 'head',
-						pivot: [0.0, 25.8, -2.5],
-						cubes: [
-							{
-								origin: [-0.5, 8.1, -5.7],
-								size: [1.0, 1.7, 1.0],
-								uv: [16, 7],
-							},
-						],
-					},
-					{
 						name: 'body',
-						pivot: [0.0, 7.5, -3.0],
-						bind_pose_rotation: [28.287, 0.0, 0.0],
+						pivot: [0, 9.5, 0],
+						rotation: [15, 0, 0],
 						cubes: [
 							{
-								origin: [-1.5, 1.5, -4.5],
-								size: [3.0, 6.0, 3.0],
-								uv: [2, 8],
+								origin: [-4, 3, -3],
+								size: [8, 13, 6],
+								uv: [0, 1],
+							},
+						],
+					},
+					{
+						name: 'left_front_leg',
+						pivot: [3.5, 12.5, -3.5],
+						rotation: [-20, 0, 0],
+						cubes: [
+							{
+								origin: [2, 8, -5],
+								size: [3, 5, 3],
+								uv: [0, 32],
+							},
+						],
+					},
+					{
+						name: 'right_front_leg',
+						pivot: [-3.5, 12.5, -3.5],
+						rotation: [-20, 0, 0],
+						cubes: [
+							{
+								origin: [-5, 8, -5],
+								size: [3, 5, 3],
+								uv: [26, 28],
+							},
+						],
+					},
+					{
+						name: 'left_back_leg',
+						pivot: [3.5, 3.5, -1.5],
+						cubes: [
+							{
+								origin: [2, 0, -3],
+								size: [3, 5, 3],
+								uv: [32, 6],
+							},
+						],
+					},
+					{
+						name: 'right_back_leg',
+						pivot: [-3.5, 3.5, -1.5],
+						cubes: [
+							{
+								origin: [-5, 0, -3],
+								size: [3, 5, 3],
+								uv: [12, 32],
+							},
+						],
+					},
+					{
+						name: 'head',
+						pivot: [0, 16.5, -2.5],
+						cubes: [
+							{
+								origin: [-3, 15, -8],
+								size: [6, 5, 7],
+								uv: [0, 20],
 							},
 						],
 					},
 					{
 						name: 'tail',
-						parent: 'body',
-						pivot: [0.0, 2.9, 1.2],
+						pivot: [0, 5, 4.5],
+						rotation: [-15, 0, 0],
 						cubes: [
 							{
-								origin: [-1.5, -0.1, 0.2],
-								size: [3.0, 4.0, 1.0],
-								uv: [22, 1],
+								origin: [-1, 4, 3],
+								size: [2, 2, 7],
+								uv: [21, 13],
 							},
 						],
 					},
 					{
-						name: 'wing0',
-						parent: 'body',
-						pivot: [1.5, 7.1, -2.8],
+						name: 'left_wing',
+						pivot: [1, 13.5, 2],
+						rotation: [15, -15, -5],
 						cubes: [
 							{
-								origin: [1.0, 2.1, -4.3],
-								size: [1.0, 5.0, 3.0],
-								uv: [19, 8],
+								origin: [0, 10, 2],
+								size: [10, 6, 0],
+								uv: [26, 22],
 							},
 						],
 					},
 					{
-						name: 'wing1',
-						parent: 'body',
-						pivot: [-1.5, 7.1, -2.8],
+						name: 'right_wing',
+						pivot: [-1, 13.5, 2],
+						rotation: [15, 15, 5],
 						cubes: [
 							{
-								origin: [-2.0, 2.1, -4.3],
-								size: [1.0, 5.0, 3.0],
-								uv: [19, 8],
-							},
-						],
-					},
-					{
-						name: 'feather',
-						parent: 'head',
-						pivot: [0.0, 10.1, 0.2],
-						bind_pose_rotation: [-12.685, 0.0, 0.0],
-						cubes: [
-							{
-								origin: [0.0, 9.1, -4.9],
-								size: [0.0, 5.0, 4.0],
-								uv: [2, 18],
-							},
-						],
-					},
-					{
-						name: 'leg0',
-						parent: 'body',
-						pivot: [1.5, 1.0, -0.5],
-						cubes: [
-							{
-								origin: [0.5, -0.5, -1.5],
-								size: [1.0, 2.0, 1.0],
-								uv: [14, 18],
-							},
-						],
-					},
-					{
-						name: 'leg1',
-						parent: 'body',
-						pivot: [-0.5, 1.0, -0.5],
-						cubes: [
-							{
-								origin: [-1.5, -0.5, -1.5],
-								size: [1.0, 2.0, 1.0],
-								uv: [14, 18],
+								origin: [-10, 10, 2],
+								size: [10, 6, 0],
+								uv: [22, 0],
 							},
 						],
 					},
@@ -167,10 +258,14 @@
 			const viewer = new StandaloneModelViewer(
 				canvas,
 				model,
-				'parrot.png'
+				'pesky_dragon.png',
+				true
 			)
+			viewer.modelBuilder.animator.addAnimation('idle', animation)
 			viewer.addHelpers()
 			setTimeout(() => viewer.requestRendering(), 50)
+			viewer.modelBuilder.animator.play('idle')
+			console.log(viewer)
 		</script>
 	</body>
 </html>

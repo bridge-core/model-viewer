@@ -334,13 +334,13 @@
 				canvas,
 				model,
 				'pesky_dragon.png',
-				false
+				true
 			)
-			viewer.model.animator.addAnimation('idle', animation)
-			viewer.model.animator.addAnimation('sleep', sleepAnimation)
+			viewer.getModel().animator.addAnimation('idle', animation)
+			viewer.getModel().animator.addAnimation('sleep', sleepAnimation)
 			viewer.addHelpers()
 			setTimeout(() => viewer.requestRendering(), 50)
-			viewer.model.animator.play('idle')
+			viewer.getModel().animator.play('idle')
 			console.log(viewer)
 		</script>
 	</body>

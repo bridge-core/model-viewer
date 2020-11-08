@@ -8,6 +8,7 @@ import {
 } from 'three'
 import { Animator } from './Animations/Animator'
 import { Cube } from './Cube'
+import { PolyMesh } from './PolyMesh'
 import { IGeoSchema } from './Schema/Model'
 
 export class Model {
@@ -39,6 +40,21 @@ export class Model {
 		modelData.bones?.forEach((boneData) => {
 			const currBone = new Group()
 			currBone.name = boneData.name ?? 'unknown'
+
+			if (boneData.poly_mesh) {
+				currBone.add(
+					new PolyMesh({
+						...boneData.poly_mesh,
+						textureSize,
+						material: modelMaterial,
+						mirror: boneData.mirror ?? false,
+						origin: [0, 0, 0],
+						inflate: boneData.inflate,
+						rotation: [0, 0, 0],
+						pivot: boneData.pivot,
+					}).getGroup()
+				)
+			}
 
 			boneData.cubes?.forEach((cubeData, i) => {
 				const group = new Cube({

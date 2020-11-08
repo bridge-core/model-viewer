@@ -16,4 +16,5 @@ export declare class StandaloneModelViewer {
     protected onResize(): void;
     dispose(): void;
     addHelpers(): void;
+    getModel(): Model;
 }

@@ -47,6 +47,7 @@ export class Animation {
 					if (Array.isArray(transform)) {
 						return transform as [number, number, number]
 					} else {
+						// TODO
 						throw new Error('Format not supported yet')
 					}
 				} else {
@@ -68,6 +69,7 @@ export class Animation {
 									(this.currentTime - time)
 						) as [number, number, number]
 					} else {
+						// TODO
 						throw new Error('Format not supported yet')
 					}
 				}

@@ -83,4 +83,7 @@ export class StandaloneModelViewer {
 		this.scene.add(new GridHelper(20, 20))
 		this.requestRendering()
 	}
+	getModel() {
+		return this.model
+	}
 }

@@ -1,10 +1,10 @@
 import { ISingleAnimation } from '../Schema/Animation';
-import { ModelBuilder } from '../ModelBuilder';
+import { Model } from '../Model';
 import { Animation } from './Animation';
 export declare class Animator {
-    protected model: ModelBuilder;
+    protected model: Model;
     protected animations: Map<string, Animation>;
-    constructor(model: ModelBuilder);
+    constructor(model: Model);
     setupDefaultBonePoses(): void;
     dispose(): void;
     addAnimation(id: string, animationData: ISingleAnimation): void;

@@ -1,10 +1,10 @@
 import { ISingleAnimation } from '../Schema/Animation'
-import { ModelBuilder } from '../ModelBuilder'
+import { Model } from '../Model'
 import { Animation } from './Animation'
 
 export class Animator {
 	protected animations = new Map<string, Animation>()
-	constructor(protected model: ModelBuilder) {}
+	constructor(protected model: Model) {}
 
 	setupDefaultBonePoses() {
 		//Save default rotation & position
@@ -45,7 +45,9 @@ export class Animator {
 	}
 
 	tick() {
-		this.animations.forEach((animation) => animation.tick())
+		this.animations.forEach(
+			(animation) => animation.shouldTick && animation.tick()
+		)
 	}
 	get shouldTick() {
 		return [...this.animations.values()].some(

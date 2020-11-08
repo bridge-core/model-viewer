@@ -1,4 +1,4 @@
-import { ModelBuilder } from '../ModelBuilder'
+import { Model } from '../Model'
 import { execute, setEnv } from 'molang'
 import {
 	ISingleAnimation,
@@ -8,14 +8,14 @@ import {
 import { MathUtils } from 'three'
 
 export class Animation {
-	protected currentTick = 0
+	protected startTimeStamp = 0
 	protected isRunning = false
 	protected env = {
 		'query.anim_time': () => this.currentTime,
 	}
 
 	constructor(
-		protected model: ModelBuilder,
+		protected model: Model,
 		protected animationData: ISingleAnimation
 	) {}
 
@@ -115,23 +115,22 @@ export class Animation {
 				bone.scale.set(...(scaleMod as [number, number, number]))
 		}
 
-		this.currentTick += 1
-
 		if (this.currentTime > this.animationData.animation_length) {
-			if (this.animationData.loop) this.currentTick = 0
+			if (this.animationData.loop) this.startTimeStamp = Date.now()
 			else this.pause()
 		}
 	}
 
 	play() {
 		this.isRunning = true
+		this.startTimeStamp = Date.now()
 	}
 	pause() {
 		this.isRunning = false
 	}
 
 	get currentTime() {
-		return this.currentTick / 20
+		return (Date.now() - this.startTimeStamp) / 1000
 	}
 	get shouldTick() {
 		return this.isRunning

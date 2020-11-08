@@ -10,10 +10,10 @@ import { Animator } from './Animations/Animator'
 import { Cube } from './Cube'
 import { IGeoSchema } from './Schema/Model'
 
-export class ModelBuilder {
+export class Model {
 	protected model: Group
 	protected boneMap = new Map<string, Group>()
-	protected animator = new Animator(this)
+	public readonly animator = new Animator(this)
 
 	constructor(modelData: IGeoSchema, texturePath: string) {
 		const id = modelData.description?.identifier ?? 'geometry.unknown'

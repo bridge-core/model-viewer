@@ -8,14 +8,14 @@ import {
 	WebGLRenderer,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { ModelBuilder } from './ModelBuilder'
+import { Model } from './Model'
 import { IGeoSchema } from './Schema/Model'
 
-export { ModelBuilder } from './ModelBuilder'
+export { Model } from './Model'
 
 export class StandaloneModelViewer {
 	protected renderer: WebGLRenderer
-	protected modelBuilder: ModelBuilder
+	protected model: Model
 	protected scene: Scene
 	protected camera: PerspectiveCamera
 	protected renderingRequested = false
@@ -39,8 +39,8 @@ export class StandaloneModelViewer {
 		this.scene = new Scene()
 		this.scene.add(new AmbientLight(0xffffff))
 		this.scene.background = new Color(0xcaf0f8)
-		this.modelBuilder = new ModelBuilder(modelData, texturePath)
-		this.scene.add(this.modelBuilder.getModel())
+		this.model = new Model(modelData, texturePath)
+		this.scene.add(this.model.getModel())
 
 		window.addEventListener('resize', this.onResize.bind(this))
 		this.controls.addEventListener(
@@ -56,8 +56,8 @@ export class StandaloneModelViewer {
 		this.renderer.render(this.scene, this.camera)
 		this.renderingRequested = false
 
-		if (this.modelBuilder.shouldTick) {
-			this.modelBuilder.tick()
+		if (this.model.shouldTick) {
+			this.model.tick()
 			this.requestRendering()
 		}
 	}

@@ -9,16 +9,8 @@ export class Animator {
 	setupDefaultBonePoses() {
 		//Save default rotation & position
 		for (let bone of this.model.getBoneMap().values()) {
-			bone.userData.defaultRotation = [
-				bone.rotation.x,
-				bone.rotation.y,
-				bone.rotation.z,
-			]
-			bone.userData.defaultPosition = [
-				bone.position.x,
-				bone.position.y,
-				bone.position.z,
-			]
+			bone.userData.defaultRotation = bone.rotation.toArray()
+			bone.userData.defaultPosition = bone.position.toArray()
 		}
 	}
 
@@ -45,6 +37,16 @@ export class Animator {
 	}
 
 	tick() {
+		// Reset currentTick data
+		for (let bone of this.model.getBoneMap().values()) {
+			bone.rotation.set(
+				...(bone.userData.defaultRotation as [number, number, number])
+			)
+			bone.position.set(
+				...(bone.userData.defaultPosition as [number, number, number])
+			)
+		}
+
 		this.animations.forEach(
 			(animation) => animation.shouldTick && animation.tick()
 		)

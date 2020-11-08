@@ -340,6 +340,7 @@
 			viewer.getModel().animator.addAnimation('sleep', sleepAnimation)
 			viewer.addHelpers()
 			setTimeout(() => viewer.requestRendering(), 50)
+			// viewer.getModel().animator.play('sleep')
 			viewer.getModel().animator.play('idle')
 			console.log(viewer)
 		</script>

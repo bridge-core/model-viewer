@@ -93,25 +93,27 @@ export class Animation {
 				scale,
 			].map((mod) => this.parseBoneModifier(mod))
 
-			if (positionMod)
+			if (positionMod) {
+				const currentPosition = bone.position.toArray()
 				bone.position.set(
 					...(positionMod.map(
 						(val, i) =>
-							(i === 0 ? -1 : 1) * val +
-							bone.userData.defaultPosition[i]
+							(i === 0 ? -1 : 1) * val + currentPosition[i]
 					) as [number, number, number])
 				)
+			}
 
-			if (rotationMod)
+			if (rotationMod) {
+				const currentRotation = bone.rotation.toArray()
 				bone.rotation.set(
 					...(rotationMod
 						.map(MathUtils.degToRad)
 						.map(
 							(val, i) =>
-								bone.userData.defaultRotation[i] +
-								(i === 2 ? val : -val)
+								currentRotation[i] + (i === 2 ? val : -val)
 						) as [number, number, number])
 				)
+			}
 
 			if (scaleMod)
 				bone.scale.set(...(scaleMod as [number, number, number]))

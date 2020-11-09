@@ -14,7 +14,17 @@ export interface ISingleAnimation {
 	bones: {
 		[boneName: string]: IBoneAnim
 	}
+	sound_effects: TSoundEffects
+	particle_effects: TParticleEffects
 }
+
+export interface ITimestamp<T> {
+	[timeStamp: string]: T
+}
+
+export type TSoundEffects = ITimestamp<{ effect: string }>
+
+export type TParticleEffects = ITimestamp<{ effect: string; locator: string }>
 
 export interface IBoneAnim {
 	position: TBoneModifier
@@ -25,8 +35,8 @@ export interface IBoneAnim {
 export type TBoneModifier =
 	| string
 	| [string, string, string]
-	| { [time: string]: TTimestamp }
-export type TTimestamp =
+	| ITimestamp<TTimestampEntry>
+export type TTimestampEntry =
 	| [number, number, number]
 	| {
 			lerp_mode: 'linear' | 'catmullrom'

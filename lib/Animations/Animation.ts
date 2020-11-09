@@ -2,10 +2,15 @@ import { Model } from '../Model'
 import { execute, setEnv } from 'molang'
 import {
 	ISingleAnimation,
+	ITimestamp,
 	TBoneModifier,
-	TTimestamp,
+	TParticleEffects,
+	TSoundEffects,
+	TTimestampEntry,
 } from '../Schema/Animation'
 import { MathUtils } from 'three'
+import { SoundEffect } from './SoundEffect'
+import { ParticleEffect } from './ParticleEffect'
 
 export class Animation {
 	protected startTimeStamp = 0
@@ -13,6 +18,14 @@ export class Animation {
 	protected env = {
 		'query.anim_time': () => this.currentTime,
 	}
+	protected soundEffects = new SoundEffect(
+		this,
+		this.animationData.sound_effects ?? {}
+	)
+	protected particleEffects = new ParticleEffect(
+		this,
+		this.animationData.particle_effects ?? {}
+	)
 
 	constructor(
 		protected model: Model,
@@ -34,7 +47,7 @@ export class Animation {
 			const timestamps = Object.entries(transform)
 				.map(
 					([time, transform]) =>
-						[Number(time), transform] as [number, TTimestamp]
+						[Number(time), transform] as [number, TTimestampEntry]
 				)
 				.sort(([a], [b]) => a - b)
 
@@ -51,6 +64,7 @@ export class Animation {
 						throw new Error('Format not supported yet')
 					}
 				} else {
+					// Interpolation between two timestamps
 					let [nextTime, nexttransform] = timestamps[
 						MathUtils.euclideanModulo(i + 1, timestamps.length)
 					]
@@ -79,6 +93,9 @@ export class Animation {
 	}
 
 	tick() {
+		this.soundEffects.tick()
+		this.particleEffects.tick()
+
 		const boneMap = this.model.getBoneMap()
 
 		for (let boneName in this.animationData.bones) {
@@ -120,7 +137,7 @@ export class Animation {
 		}
 
 		if (this.currentTime > this.animationData.animation_length) {
-			if (this.animationData.loop) this.startTimeStamp = Date.now()
+			if (this.animationData.loop) this.loop()
 			else this.pause()
 		}
 	}
@@ -132,9 +149,17 @@ export class Animation {
 	pause() {
 		this.isRunning = false
 	}
+	loop() {
+		this.startTimeStamp = Date.now()
+		this.soundEffects.reset()
+		this.particleEffects.reset()
+	}
 
 	get currentTime() {
 		return (Date.now() - this.startTimeStamp) / 1000
+	}
+	get roundedCurrentTime() {
+		return Math.round((Date.now() - this.startTimeStamp) / 50) / 20
 	}
 	get shouldTick() {
 		return this.isRunning

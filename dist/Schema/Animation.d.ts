@@ -13,16 +13,26 @@ export interface ISingleAnimation {
     bones: {
         [boneName: string]: IBoneAnim;
     };
+    sound_effects: TSoundEffects;
+    particle_effects: TParticleEffects;
 }
+export interface ITimestamp<T> {
+    [timeStamp: string]: T;
+}
+export declare type TSoundEffects = ITimestamp<{
+    effect: string;
+}>;
+export declare type TParticleEffects = ITimestamp<{
+    effect: string;
+    locator: string;
+}>;
 export interface IBoneAnim {
     position: TBoneModifier;
     rotation: TBoneModifier;
     scale: TBoneModifier;
 }
-export declare type TBoneModifier = string | [string, string, string] | {
-    [time: string]: TTimestamp;
-};
-export declare type TTimestamp = [number, number, number] | {
+export declare type TBoneModifier = string | [string, string, string] | ITimestamp<TTimestampEntry>;
+export declare type TTimestampEntry = [number, number, number] | {
     lerp_mode: 'linear' | 'catmullrom';
     pre: [string, string, string];
     post: [string, string, string];

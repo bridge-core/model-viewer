@@ -7,7 +7,6 @@ export abstract class AnimationEffect<T> {
 	protected effects: [number, T][]
 
 	constructor(protected animation: Animation, timestampObj: T) {
-		console.log(timestampObj)
 		this.effects = Object.entries(timestampObj)
 			.map(
 				([time, timestampEntry]) =>

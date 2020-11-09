@@ -1,13 +1,5 @@
-import {
-	BufferAttribute,
-	BufferGeometry,
-	Group,
-	Material,
-	MathUtils,
-	Mesh,
-} from 'three'
-import { CubeFaces } from './CubeFaces'
-import { IPolyMesh, TVector } from './Schema/Model'
+import { BufferAttribute, BufferGeometry, Group, Material, Mesh } from 'three'
+import { IPolyMesh } from './Schema/Model'
 
 export interface IUVObj {
 	north: IUVConfig

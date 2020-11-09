@@ -13,10 +13,14 @@ import { SoundEffect } from './SoundEffect'
 import { ParticleEffect } from './ParticleEffect'
 
 export class Animation {
-	protected startTimeStamp = 0
+	protected startTimestamp = 0
+	protected lastFrameTimestamp = 0
 	protected isRunning = false
 	protected env = {
 		'query.anim_time': () => this.currentTime,
+		'query.delta_time': () => this.startTimestamp - this.lastFrameTimestamp,
+		'query.life_time': () => this.currentTime,
+		'query.time': () => this.currentTime,
 	}
 	protected soundEffects = new SoundEffect(
 		this,
@@ -140,26 +144,29 @@ export class Animation {
 			if (this.animationData.loop) this.loop()
 			else this.pause()
 		}
+
+		// Update lastFrameTimestamp for query.delta_time
+		this.lastFrameTimestamp = Date.now()
 	}
 
 	play() {
 		this.isRunning = true
-		this.startTimeStamp = Date.now()
+		this.startTimestamp = Date.now()
 	}
 	pause() {
 		this.isRunning = false
 	}
 	loop() {
-		this.startTimeStamp = Date.now()
+		this.startTimestamp = Date.now()
 		this.soundEffects.reset()
 		this.particleEffects.reset()
 	}
 
 	get currentTime() {
-		return (Date.now() - this.startTimeStamp) / 1000
+		return (Date.now() - this.startTimestamp) / 1000
 	}
 	get roundedCurrentTime() {
-		return Math.round((Date.now() - this.startTimeStamp) / 50) / 20
+		return Math.round((Date.now() - this.startTimestamp) / 50) / 20
 	}
 	get shouldTick() {
 		return this.isRunning

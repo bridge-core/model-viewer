@@ -20,7 +20,6 @@ export class Animation {
 		'query.anim_time': () => this.currentTime,
 		'query.delta_time': () => this.startTimestamp - this.lastFrameTimestamp,
 		'query.life_time': () => this.currentTime,
-		'query.time': () => this.currentTime,
 	}
 	protected soundEffects = new SoundEffect(
 		this,

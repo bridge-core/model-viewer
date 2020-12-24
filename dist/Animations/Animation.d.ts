@@ -12,7 +12,6 @@ export declare class Animation {
         'query.anim_time': () => number;
         'query.delta_time': () => number;
         'query.life_time': () => number;
-        'query.time': () => number;
     };
     protected soundEffects: SoundEffect;
     protected particleEffects: ParticleEffect;

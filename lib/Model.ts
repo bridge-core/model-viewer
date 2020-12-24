@@ -42,18 +42,19 @@ export class Model {
 			currBone.name = boneData.name ?? 'unknown'
 
 			if (boneData.poly_mesh) {
-				currBone.add(
-					new PolyMesh({
-						...boneData.poly_mesh,
-						textureSize,
-						material: modelMaterial,
-						mirror: boneData.mirror ?? false,
-						origin: [0, 0, 0],
-						inflate: boneData.inflate,
-						rotation: [0, 0, 0],
-						pivot: boneData.pivot,
-					}).getGroup()
-				)
+				const polyMeshGroup = new PolyMesh({
+					...boneData.poly_mesh,
+					textureSize,
+					material: modelMaterial,
+					mirror: boneData.mirror ?? false,
+					origin: [0, 0, 0],
+					inflate: boneData.inflate,
+					rotation: [0, 0, 0],
+					pivot: boneData.pivot,
+				}).getGroup()
+				polyMeshGroup.name = `#bone.${boneData.name}#polyMesh`
+
+				currBone.add(polyMeshGroup)
 			}
 
 			boneData.cubes?.forEach((cubeData, i) => {

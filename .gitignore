@@ -3,3 +3,4 @@ perf/*
 
 
 tsconfig.tsbuildinfo
+.DS_STORE

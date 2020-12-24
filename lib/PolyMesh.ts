@@ -42,25 +42,22 @@ export class PolyMesh {
 				uvY / polyMeshConfig.textureSize[1],
 			])
 
-		const positions: number[] = []
-		const normals: number[] = []
-		const uvs: number[] = []
-		const indices: number[] = []
-
 		let i = 0
 		for (const face of polyMeshConfig.polys) {
 			for (const [vertexIndex, normalIndex, uvIndex] of face) {
-				positions.push(
+				this.positions.push(
 					...(polyMeshConfig?.positions?.[vertexIndex] ?? [])
 				)
-				normals.push(...(polyMeshConfig?.normals?.[normalIndex] ?? []))
-				uvs.push(...(polyMeshConfig?.uvs?.[uvIndex] ?? []))
+				this.normals.push(
+					...(polyMeshConfig?.normals?.[normalIndex] ?? [])
+				)
+				this.uvs.push(...(polyMeshConfig?.uvs?.[uvIndex] ?? []))
 			}
 
 			if (face.length === 3) {
-				indices.push(i, i + 1, i + 2)
+				this.indices.push(i, i + 1, i + 2)
 			} else {
-				indices.push(i + 2, i + 1, i, i + 2, i, i + 3)
+				this.indices.push(i + 2, i + 1, i, i + 2, i, i + 3)
 			}
 
 			i += face.length

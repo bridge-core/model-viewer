@@ -1,5 +1,5 @@
 node_modules
-perf/*
+.DS_Store
 
 
 tsconfig.tsbuildinfo

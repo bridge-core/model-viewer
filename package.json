@@ -10,7 +10,8 @@
 		"lib": "lib"
 	},
 	"scripts": {
-		"build": "rollup -c"
+		"build": "rollup -c",
+		"dev": "vite"
 	},
 	"repository": {
 		"type": "git",
@@ -29,7 +30,8 @@
 		"rollup-plugin-terser": "^7.0.0",
 		"rollup-plugin-typescript2": "^0.27.2",
 		"ts-jest": "^24.2.0",
-		"typescript": "^3.7.4"
+		"typescript": "^3.7.4",
+		"vite": "^2.0.0-beta.69"
 	},
 	"dependencies": {
 		"molang": "^1.5.7",

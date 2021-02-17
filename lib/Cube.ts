@@ -184,9 +184,9 @@ export class Cube {
 
 		if (inflate)
 			this.group.scale.set(
-				1 + inflate / (width / 2),
-				1 + inflate / (height / 2),
-				1 + inflate / (depth / 2)
+				width !== 0 ? 1 + inflate / (width / 2) : 1,
+				height !== 0 ? 1 + inflate / (height / 2) : 1,
+				depth !== 0 ? 1 + inflate / (depth / 2) : 1
 			)
 	}
 

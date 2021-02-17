@@ -5,7 +5,6 @@
 		"target": "ESNext",
 		"module": "CommonJS",
 		"moduleResolution": "node",
-		"outDir": "./perf/",
 		"rootDir": "./lib/",
 		"composite": true,
 		"removeComments": true,

@@ -1,13 +1,13 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "A fast parser for Minecraft's MoLang",
-	"main": "./dist/main.umd.js",
-	"module": "./dist/main.es.js",
+	"main": "./dist/main.cjs.js",
+	"module": "./dist/main.esm.js",
 	"exports": {
 		".": {
-			"import": "./dist/main.es.js",
-			"require": "./dist/main.umd.js"
+			"import": "./dist/main.esm.js",
+			"require": "./dist/main.cjs.js"
 		}
 	},
 	"types": "dist/main.d.ts",

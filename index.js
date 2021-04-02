@@ -1,1 +1,1 @@
-module.exports = require('./dist/molang.cjs.js')
+module.exports = require('./dist/main.cjs.js')

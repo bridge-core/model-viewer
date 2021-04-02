@@ -1,12 +1,12 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "index.js",
 	"cjs": "dist/molang.cjs.js",
 	"module": "dist/molang.esm.js",
-	"unpkg": "dist/molang.global.js",
-	"jsdelivr": "dist/molang.global.js",
+	"unpkg": "dist/molang.web.js",
+	"jsdelivr": "dist/molang.web.js",
 	"types": "dist/main.d.ts",
 	"directories": {
 		"lib": "lib"

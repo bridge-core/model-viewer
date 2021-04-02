@@ -8,7 +8,7 @@ export default {
 	input: 'lib/main.ts',
 	output: [
 		{
-			file: pkg.main,
+			file: pkg.cjs,
 			format: 'cjs',
 		},
 		{
@@ -16,7 +16,7 @@ export default {
 			format: 'es',
 		},
 		{
-			file: pkg.browser,
+			file: pkg.unpkg,
 			format: 'iife',
 			name: 'BridgeModelViewer',
 		},

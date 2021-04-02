@@ -3,10 +3,10 @@
 	"version": "0.3.0",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "index.js",
-	"cjs": "dist/molang.cjs.js",
-	"module": "dist/molang.esm.js",
-	"unpkg": "dist/molang.web.js",
-	"jsdelivr": "dist/molang.web.js",
+	"cjs": "dist/main.cjs.js",
+	"module": "dist/main.esm.js",
+	"unpkg": "dist/main.web.js",
+	"jsdelivr": "dist/main.web.js",
 	"types": "dist/main.d.ts",
 	"directories": {
 		"lib": "lib"

@@ -1,6 +1,6 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "dist/main.cjs.js",
 	"module": "dist/main.esm.js",

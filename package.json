@@ -1,6 +1,6 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.2.4",
+	"version": "0.3.0",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "index.js",
 	"cjs": "dist/molang.cjs.js",
@@ -38,7 +38,7 @@
 		"vite": "^2.0.0-beta.69"
 	},
 	"dependencies": {
-		"molang": "^1.5.7",
+		"molang": "^1.9.1",
 		"three": "^0.127.0"
 	}
 }

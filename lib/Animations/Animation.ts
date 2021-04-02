@@ -1,5 +1,5 @@
 import { Model } from '../Model'
-import { execute, setEnv } from 'molang'
+import { MoLang } from 'molang'
 import {
 	ISingleAnimation,
 	ITimestamp,
@@ -21,6 +21,7 @@ export class Animation {
 		'query.delta_time': () => this.startTimestamp - this.lastFrameTimestamp,
 		'query.life_time': () => this.currentTime,
 	}
+	protected molang = new MoLang(this.env)
 	protected soundEffects = new SoundEffect(
 		this,
 		this.animationData.sound_effects ?? {}
@@ -39,12 +40,12 @@ export class Animation {
 		if (typeof transform === 'string') {
 			const res =
 				typeof transform === 'string'
-					? execute(transform, this.env)
+					? this.molang.execute(transform)
 					: transform
 			return [res, res, res] as [number, number, number]
 		} else if (Array.isArray(transform)) {
 			return transform.map((t) =>
-				typeof t === 'string' ? execute(t, this.env) : t
+				typeof t === 'string' ? this.molang.execute(t) : t
 			) as [number, number, number]
 		} else if (transform !== undefined) {
 			const timestamps = Object.entries(transform)

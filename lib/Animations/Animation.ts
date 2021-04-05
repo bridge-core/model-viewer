@@ -36,16 +36,20 @@ export class Animation {
 		protected animationData: ISingleAnimation
 	) {}
 
+	protected execute(expr: string) {
+		return this.molang.executeAndCatch(expr)
+	}
+
 	parseBoneModifier(transform: TBoneModifier) {
 		if (typeof transform === 'string') {
 			const res =
 				typeof transform === 'string'
-					? this.molang.execute(transform)
+					? this.execute(transform)
 					: transform
 			return [res, res, res] as [number, number, number]
 		} else if (Array.isArray(transform)) {
 			return transform.map((t) =>
-				typeof t === 'string' ? this.molang.execute(t) : t
+				typeof t === 'string' ? this.execute(t) : t
 			) as [number, number, number]
 		} else if (transform !== undefined) {
 			const timestamps = Object.entries(transform)

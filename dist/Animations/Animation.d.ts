@@ -18,6 +18,7 @@ export declare class Animation {
     protected soundEffects: SoundEffect;
     protected particleEffects: ParticleEffect;
     constructor(model: Model, animationData: ISingleAnimation);
+    execute(expr: string): unknown;
     parseBoneModifier(transform: TBoneModifier): number[] | undefined;
     tick(): void;
     play(): void;

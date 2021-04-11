@@ -20,5 +20,6 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true
 	},
+	"include": ["lib/**/*.ts"],
 	"types": ["node", "jest"]
 }

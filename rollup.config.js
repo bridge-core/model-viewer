@@ -21,7 +21,7 @@ export default {
 			name: 'BridgeModelViewer',
 		},
 	],
-	external: ['three', 'molang'],
+	external: ['three', 'molang', 'wintersky'],
 	plugins: [
 		typescript({
 			typescript: require('typescript'),

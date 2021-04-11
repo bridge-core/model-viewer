@@ -1,3 +1,4 @@
+import { ITimestamp } from '../Schema/Animation'
 import { Animation } from './Animation'
 
 export abstract class AnimationEffect<T> {
@@ -6,7 +7,7 @@ export abstract class AnimationEffect<T> {
 	protected currentEffectIndex = 0
 	protected effects: [number, T][]
 
-	constructor(protected animation: Animation, timestampObj: T) {
+	constructor(protected animation: Animation, timestampObj: ITimestamp<T>) {
 		this.effects = Object.entries(timestampObj)
 			.map(
 				([time, timestampEntry]) =>

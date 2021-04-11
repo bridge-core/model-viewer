@@ -1,16 +1,13 @@
-import { Model } from '../Model'
 import { MoLang } from 'molang'
 import {
 	ISingleAnimation,
-	ITimestamp,
 	TBoneModifier,
-	TParticleEffects,
-	TSoundEffects,
 	TTimestampEntry,
 } from '../Schema/Animation'
 import { MathUtils } from 'three'
 import { SoundEffect } from './SoundEffect'
 import { ParticleEffect } from './ParticleEffect'
+import { Animator } from './Animator'
 
 export class Animation {
 	protected startTimestamp = 0
@@ -32,9 +29,13 @@ export class Animation {
 	)
 
 	constructor(
-		protected model: Model,
+		protected animator: Animator,
 		protected animationData: ISingleAnimation
 	) {}
+
+	getAnimator() {
+		return this.animator
+	}
 
 	protected execute(expr: string) {
 		return this.molang.executeAndCatch(expr)
@@ -104,7 +105,7 @@ export class Animation {
 		this.soundEffects.tick()
 		this.particleEffects.tick()
 
-		const boneMap = this.model.getBoneMap()
+		const boneMap = this.animator.getModel().getBoneMap()
 
 		for (let boneName in this.animationData.bones) {
 			const bone = boneMap.get(boneName)

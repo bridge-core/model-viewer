@@ -4,6 +4,7 @@ import {
 	MathUtils,
 	MeshLambertMaterial,
 	NearestFilter,
+	Object3D,
 	TextureLoader,
 } from 'three'
 import { Animator } from './Animations/Animator'
@@ -14,6 +15,7 @@ import { IGeoSchema } from './Schema/Model'
 export class Model {
 	protected model: Group
 	protected boneMap = new Map<string, Group>()
+	protected locators = new Map<string, Group>()
 	public readonly animator = new Animator(this)
 
 	constructor(modelData: IGeoSchema, texturePath: string) {
@@ -23,6 +25,7 @@ export class Model {
 			modelData.description?.texture_height ?? 128,
 		]
 		const boneParentMap = new Map<string, [string | undefined, Group]>()
+
 		this.model = new Group()
 		this.model.name = id
 
@@ -40,6 +43,13 @@ export class Model {
 		modelData.bones?.forEach((boneData) => {
 			const currBone = new Group()
 			currBone.name = boneData.name ?? 'unknown'
+
+			const locators = boneData.locators ?? {}
+			for (const locatorName in locators) {
+				const locator = new Group()
+				locator.position.set(...locators[locatorName])
+				this.locators.set(locatorName, locator)
+			}
 
 			if (boneData.poly_mesh) {
 				const polyMeshGroup = new PolyMesh({
@@ -122,12 +132,15 @@ export class Model {
 		this.animator.setupDefaultBonePoses()
 	}
 
-	getModel() {
+	getGroup() {
 		return this.model
 	}
 
 	getBoneMap() {
 		return this.boneMap
+	}
+	getLocator(name: string) {
+		return this.locators.get(name)
 	}
 
 	tick() {

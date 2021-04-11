@@ -52,7 +52,7 @@ export class StandaloneModelViewer {
 		this.scene.add(new AmbientLight(0xffffff))
 		this.scene.background = new Color(0xcaf0f8)
 		this.model = new Model(modelData, texturePath)
-		this.scene.add(this.model.getModel())
+		this.scene.add(this.model.getGroup())
 
 		window.addEventListener('resize', this.onResize.bind(this))
 		this.controls.addEventListener('change', () => this.requestRendering())
@@ -100,7 +100,7 @@ export class StandaloneModelViewer {
 	addHelpers() {
 		this.scene.add(new AxesHelper(50))
 		this.scene.add(new GridHelper(20, 20))
-		this.scene.add(new BoxHelper(this.model.getModel(), 0xffff00))
+		this.scene.add(new BoxHelper(this.model.getGroup(), 0xffff00))
 
 		this.requestRendering()
 	}
@@ -110,9 +110,9 @@ export class StandaloneModelViewer {
 
 	// From: https://github.com/mrdoob/three.js/issues/6784#issuecomment-315963625
 	positionCamera(scale = 1.5, rotate = true) {
-		if (rotate) this.model.getModel().rotation.set(0, Math.PI, 0)
+		if (rotate) this.model.getGroup().rotation.set(0, Math.PI, 0)
 		const boundingSphere = new Box3()
-			.setFromObject(this.model.getModel())
+			.setFromObject(this.model.getGroup())
 			.getBoundingSphere(new Sphere())
 
 		const objectAngularSize = ((this.camera.fov * Math.PI) / 180) * scale

@@ -14,17 +14,24 @@ export interface ISingleAnimation {
 	bones: {
 		[boneName: string]: IBoneAnim
 	}
-	sound_effects: TSoundEffects
-	particle_effects: TParticleEffects
+	sound_effects: ITimestamp<ISoundEffect>
+	particle_effects: ITimestamp<IParticleEffect>
 }
 
 export interface ITimestamp<T> {
 	[timeStamp: string]: T
 }
 
-export type TSoundEffects = ITimestamp<{ effect: string }>
+export interface ISoundEffect {
+	effect?: string
+	pre_effect_script?: string
+}
 
-export type TParticleEffects = ITimestamp<{ effect: string; locator: string }>
+export interface IParticleEffect {
+	effect?: string
+	locator?: string
+	pre_effect_script?: string
+}
 
 export interface IBoneAnim {
 	position: TBoneModifier

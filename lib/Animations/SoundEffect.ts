@@ -1,7 +1,7 @@
-import { TSoundEffects } from '../Schema/Animation'
+import { ISoundEffect } from '../Schema/Animation'
 import { AnimationEffect } from './AnimationEffect'
 
-export class SoundEffect extends AnimationEffect<TSoundEffects> {
+export class SoundEffect extends AnimationEffect<ISoundEffect> {
 	tick() {
 		const timestampEntry = super.getCurrentEffect()
 		if (timestampEntry)

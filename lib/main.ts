@@ -74,6 +74,9 @@ export class StandaloneModelViewer {
 
 		if (checkShouldTick && this.model.shouldTick) {
 			this.model.tick()
+			this.model.animator.winterskyScene?.updateFacingRotation(
+				this.camera
+			)
 			this.requestRendering()
 		}
 	}

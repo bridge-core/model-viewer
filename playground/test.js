@@ -1,20 +1,39 @@
 import { StandaloneModelViewer } from '../lib/main'
-import { animation, model, sleepAnimation } from './model'
+import {
+	animation,
+	model as modelJson,
+	particle,
+	sleepAnimation,
+} from './model'
+import Wintersky from 'wintersky'
 
 const canvas = document.getElementById('renderTarget')
 
 export const viewer = new StandaloneModelViewer(
 	canvas,
-	model,
+	modelJson,
 	'pesky_dragon.png',
 	{
 		antialias: true,
 	}
 )
-viewer.getModel().animator.addAnimation('idle', animation)
-viewer.getModel().animator.addAnimation('sleep', sleepAnimation)
+const model = viewer.getModel()
+const winterskyScene = new Wintersky.Scene()
+winterskyScene.global_options.loop_mode = 'once'
+winterskyScene.global_options.scale = 16
+
+viewer.scene.add(winterskyScene.space)
+
+model.animator.setupWintersky(winterskyScene)
+model.animator.addEmitter(
+	'heart',
+	new Wintersky.Config(winterskyScene, particle)
+)
+model.animator.addAnimation('idle', animation)
+model.animator.addAnimation('sleep', sleepAnimation)
 // viewer.addHelpers()
 viewer.positionCamera()
 setTimeout(() => viewer.requestRendering(), 100)
-// viewer.getModel().animator.play('sleep')
-// viewer.getModel().animator.play('idle')
+model.animator.play('sleep')
+// model.animator.play('idle')
+console.log(model)

@@ -4,6 +4,8 @@ import Wintersky from 'wintersky'
 
 export class ParticleEffect extends AnimationEffect<IParticleEffect> {
 	tick() {
+		this.tickingEffects.forEach((effect) => effect.tick())
+
 		const { locator, effect, pre_effect_script } =
 			super.getCurrentEffect() ?? {}
 
@@ -14,28 +16,41 @@ export class ParticleEffect extends AnimationEffect<IParticleEffect> {
 		const emitterConfig = animator.getEmitter(effect)
 		if (!emitterConfig || !animator.winterskyScene) return
 
-		const emitter = new Wintersky.Emitter(
-			animator.winterskyScene,
-			emitterConfig
-		)
 		const locatorGroup = locator ? model.getLocator(locator) : undefined
 
-		// @ts-ignore
-		emitter.loop_mode = 'once'
+		const emitter = new Wintersky.Emitter(
+			animator.winterskyScene,
+			emitterConfig,
+			{
+				parent_mode: locatorGroup ? 'locator' : 'entity',
+				loop_mode: 'once',
+			}
+		)
 
 		if (locatorGroup) {
 			// @ts-ignore
-			emitter.parent_mode = 'locator'
-			// @ts-ignore
 			locatorGroup.add(emitter.local_space)
-		} else {
 			// @ts-ignore
-			emitter.parent_mode = 'entity'
+			emitter.local_space.parent = locatorGroup
 		}
 
-		// @ts-ignore
-		model.getModel().add(emitter.global_space)
+		const tickable = {
+			tick: () => {
+				emitter.tick()
 
-		emitter?.start()
+				// @ts-ignore
+				if (!emitter.enabled) {
+					emitter.delete()
+
+					this.tickingEffects = this.tickingEffects.filter(
+						(current) => current !== tickable
+					)
+				}
+			},
+		}
+		this.tickingEffects.push(tickable)
+
+		emitter.start()
+		emitter.tick()
 	}
 }

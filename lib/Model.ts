@@ -44,13 +44,6 @@ export class Model {
 			const currBone = new Group()
 			currBone.name = boneData.name ?? 'unknown'
 
-			const locators = boneData.locators ?? {}
-			for (const locatorName in locators) {
-				const locator = new Group()
-				locator.position.set(...locators[locatorName])
-				this.locators.set(locatorName, locator)
-			}
-
 			if (boneData.poly_mesh) {
 				const polyMeshGroup = new PolyMesh({
 					...boneData.poly_mesh,
@@ -111,6 +104,15 @@ export class Model {
 					MathUtils.degToRad(-rY),
 					MathUtils.degToRad(rZ)
 				)
+			}
+
+			const locators = boneData.locators ?? {}
+			for (const locatorName in locators) {
+				const locator = new Group()
+				locator.name = `locator#${locatorName}`
+				locator.position.set(...locators[locatorName])
+				this.locators.set(locatorName, locator)
+				pivotGroup.add(locator)
 			}
 
 			if (!boneData.parent) this.model.add(pivotGroup)

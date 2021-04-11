@@ -1,6 +1,12 @@
 export const sleepAnimation = {
 	loop: true,
 	animation_length: 2,
+	particle_effects: {
+		'2.0': {
+			effect: 'heart',
+			locator: 'above_head',
+		},
+	},
 	bones: {
 		body: {
 			rotation: [60, 0, 90],
@@ -202,6 +208,21 @@ export const model = {
 
 	bones: [
 		{
+			name: 'head',
+			pivot: [0, 16.5, -2.5],
+			locators: {
+				above_head: [0, 5, 0],
+			},
+			cubes: [
+				{
+					origin: [-3, 15, -8],
+					size: [6, 5, 7],
+					uv: [0, 20],
+				},
+			],
+		},
+
+		{
 			name: 'body',
 			pivot: [0, 9.5, 0],
 			rotation: [15, 0, 0],
@@ -251,6 +272,7 @@ export const model = {
 		{
 			name: 'right_back_leg',
 			pivot: [-3.5, 3.5, -1.5],
+
 			cubes: [
 				{
 					origin: [-5, 0, -3],
@@ -259,17 +281,7 @@ export const model = {
 				},
 			],
 		},
-		{
-			name: 'head',
-			pivot: [0, 16.5, -2.5],
-			cubes: [
-				{
-					origin: [-3, 15, -8],
-					size: [6, 5, 7],
-					uv: [0, 20],
-				},
-			],
-		},
+
 		{
 			name: 'tail',
 			pivot: [0, 5, 4.5],
@@ -307,4 +319,56 @@ export const model = {
 			],
 		},
 	],
+}
+
+export const particle = {
+	format_version: '1.10.0',
+	particle_effect: {
+		description: {
+			identifier: 'minecraft:heart_particle',
+			basic_render_parameters: {
+				material: 'particles_alpha',
+				texture: 'textures/particle/particles',
+			},
+		},
+		components: {
+			'minecraft:emitter_local_space': {
+				position: true,
+				rotation: true,
+				velocity: false,
+			},
+			'minecraft:emitter_rate_steady': {
+				spawn_rate: 1,
+				max_particles: 100,
+			},
+			'minecraft:emitter_lifetime_once': {
+				active_time: 1,
+			},
+			'minecraft:emitter_shape_sphere': {
+				radius: 0.025,
+				direction: [0, 0.1, 0],
+			},
+			'minecraft:particle_lifetime_expression': {
+				max_lifetime: 'Math.random(0.2, 1.5)',
+			},
+			'minecraft:particle_initial_speed': -2.5,
+			'minecraft:particle_motion_dynamic': {
+				linear_drag_coefficient: 5,
+			},
+			'minecraft:particle_appearance_billboard': {
+				size: [
+					'(0.2 + variable.particle_random_1*0.1)',
+					'(0.2 + variable.particle_random_1*0.1)',
+				],
+				facing_camera_mode: 'lookat_xyz',
+				uv: {
+					texture_width: 128,
+					texture_height: 128,
+					uv: [0, 40],
+					uv_size: [8, 8],
+				},
+			},
+			'minecraft:particle_appearance_lighting': {},
+		},
+	},
 }

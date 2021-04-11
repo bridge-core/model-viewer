@@ -6,6 +6,7 @@ export abstract class AnimationEffect<T> {
 
 	protected currentEffectIndex = 0
 	protected effects: [number, T][]
+	protected tickingEffects: { tick: () => void }[] = []
 
 	constructor(protected animation: Animation, timestampObj: ITimestamp<T>) {
 		this.effects = Object.entries(timestampObj)

@@ -15,7 +15,8 @@ export interface IBoneSchema {
     rotation?: [number, number, number];
     mirror?: boolean;
     cubes?: ICubeSchema[];
-    poly_mesh: IPolyMesh;
+    locators?: Record<string, [number, number, number]>;
+    poly_mesh?: IPolyMesh;
 }
 export declare type TVector = [number, number, number];
 export interface IPolyMesh {

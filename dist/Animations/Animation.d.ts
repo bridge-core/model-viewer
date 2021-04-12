@@ -1,10 +1,10 @@
-import { Model } from '../Model';
 import { MoLang } from 'molang';
 import { ISingleAnimation, TBoneModifier } from '../Schema/Animation';
 import { SoundEffect } from './SoundEffect';
 import { ParticleEffect } from './ParticleEffect';
+import { Animator } from './Animator';
 export declare class Animation {
-    protected model: Model;
+    protected animator: Animator;
     protected animationData: ISingleAnimation;
     protected startTimestamp: number;
     protected lastFrameTimestamp: number;
@@ -17,7 +17,8 @@ export declare class Animation {
     protected molang: MoLang;
     protected soundEffects: SoundEffect;
     protected particleEffects: ParticleEffect;
-    constructor(model: Model, animationData: ISingleAnimation);
+    constructor(animator: Animator, animationData: ISingleAnimation);
+    getAnimator(): Animator;
     protected execute(expr: string): unknown;
     parseBoneModifier(transform: TBoneModifier): number[] | undefined;
     tick(): void;

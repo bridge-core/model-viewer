@@ -34,6 +34,10 @@ model.animator.addAnimation('sleep', sleepAnimation)
 // viewer.addHelpers()
 viewer.positionCamera()
 setTimeout(() => viewer.requestRendering(), 100)
-model.animator.play('sleep')
-// model.animator.play('idle')
+// model.animator.play('sleep')
+model.animator.play('idle')
 console.log(model)
+
+model.createOutlinedBox('#ff6700', { x: 16, y: 8, z: 16 })
+
+model.createOutlinedBox('#006712', { x: 12, y: 20, z: 8 })

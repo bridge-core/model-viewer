@@ -1,10 +1,13 @@
 import {
+	BoxGeometry,
 	DoubleSide,
+	EdgesGeometry,
 	Group,
+	LineBasicMaterial,
+	LineSegments,
 	MathUtils,
 	MeshLambertMaterial,
 	NearestFilter,
-	Object3D,
 	TextureLoader,
 } from 'three'
 import { Animator } from './Animations/Animator'
@@ -150,6 +153,26 @@ export class Model {
 	}
 	get shouldTick() {
 		return this.animator.shouldTick
+	}
+
+	createOutlinedBox(
+		color: `#${string}`,
+		size: { x: number; y: number; z: number }
+	) {
+		const outlineMaterial = new LineBasicMaterial({
+			side: DoubleSide,
+			color: color,
+			linewidth: 20,
+		})
+		const cube = new BoxGeometry(size.x, size.y, size.z)
+		const edges = new EdgesGeometry(cube)
+
+		const mesh = new LineSegments(edges, outlineMaterial)
+		mesh.position.set(0, size.y / 2, 0)
+
+		this.model.add(mesh)
+
+		return mesh
 	}
 
 	dispose() {

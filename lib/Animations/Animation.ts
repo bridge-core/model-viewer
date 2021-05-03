@@ -74,19 +74,19 @@ export class Animation {
 					}
 				} else {
 					// Interpolation between two timestamps
-					let [nextTime, nexttransform] = timestamps[
+					let [nextTime, nextTransform] = timestamps[
 						MathUtils.euclideanModulo(i + 1, timestamps.length)
 					]
 					let timeDelta = nextTime - time
 
 					if (
 						Array.isArray(transform) &&
-						Array.isArray(nexttransform)
+						Array.isArray(nextTransform)
 					) {
 						return transform.map(
 							(n, i) =>
 								n +
-								(((<[number, number, number]>nexttransform)[i] -
+								(((<[number, number, number]>nextTransform)[i] -
 									n) /
 									timeDelta) *
 									(this.currentTime - time)

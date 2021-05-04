@@ -4,7 +4,7 @@ import {
 	TBoneModifier,
 	TTimestampEntry,
 } from '../Schema/Animation'
-import { MathUtils } from 'three'
+import { Group, MathUtils } from 'three'
 import { SoundEffect } from './SoundEffect'
 import { ParticleEffect } from './ParticleEffect'
 import { Animator } from './Animator'

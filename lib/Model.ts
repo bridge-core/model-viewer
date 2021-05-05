@@ -170,10 +170,15 @@ export class Model {
 
 		const mesh = new LineSegments(edges, outlineMaterial)
 		mesh.position.set(position.x, position.y + size.y / 2, position.z)
+		mesh.name = 'helperBox'
 
 		this.model.add(mesh)
 
-		return mesh
+		return {
+			dispose: () => {
+				this.model.remove(mesh)
+			},
+		}
 	}
 
 	dispose() {

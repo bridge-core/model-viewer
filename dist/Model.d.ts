@@ -1,4 +1,4 @@
-import { EdgesGeometry, Group, LineBasicMaterial, LineSegments } from 'three';
+import { Group } from 'three';
 import { Animator } from './Animations/Animator';
 import { IGeoSchema } from './Schema/Model';
 export declare class Model {
@@ -20,6 +20,8 @@ export declare class Model {
         x: number;
         y: number;
         z: number;
-    }): LineSegments<EdgesGeometry, LineBasicMaterial>;
+    }): {
+        dispose: () => void;
+    };
     dispose(): void;
 }

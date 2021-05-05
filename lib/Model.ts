@@ -24,8 +24,8 @@ export class Model {
 	constructor(modelData: IGeoSchema, texturePath: string) {
 		const id = modelData?.description?.identifier ?? 'geometry.unknown'
 		const textureSize: [number, number] = [
-			modelData.description?.texture_width ?? 128,
-			modelData.description?.texture_height ?? 128,
+			modelData?.description?.texture_width ?? 128,
+			modelData?.description?.texture_height ?? 128,
 		]
 		const boneParentMap = new Map<string, [string | undefined, Group]>()
 
@@ -43,7 +43,7 @@ export class Model {
 			map: texture,
 		})
 
-		modelData.bones?.forEach((boneData) => {
+		modelData?.bones?.forEach((boneData) => {
 			const currBone = new Group()
 			currBone.name = boneData.name ?? 'unknown'
 

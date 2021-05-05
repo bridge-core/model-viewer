@@ -99,6 +99,11 @@ export class Model {
 			pivotGroup.add(currBone)
 			pivotGroup.name = `#pivot.${boneData.name}`
 
+			// TODO: Seems to be a lot of work for rendering a few legacy entities
+			// if (boneData.bind_pose_rotation) {
+			//
+			// }
+
 			if (boneData.rotation) {
 				const [rX, rY, rZ] = boneData.rotation
 

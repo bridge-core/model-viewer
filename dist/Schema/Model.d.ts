@@ -13,6 +13,7 @@ export interface IBoneSchema {
     inflate?: number;
     pivot?: [number, number, number];
     rotation?: [number, number, number];
+    bind_pose_rotation?: [number, number, number];
     mirror?: boolean;
     cubes?: ICubeSchema[];
     locators?: Record<string, [number, number, number]>;

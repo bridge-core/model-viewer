@@ -42,7 +42,9 @@ export class Animation {
 	}
 
 	parseBoneModifier(transform: TBoneModifier) {
-		if (typeof transform === 'string') {
+		if (typeof transform === 'number') {
+			return [transform, transform, transform]
+		} else if (typeof transform === 'string') {
 			const res =
 				typeof transform === 'string'
 					? this.execute(transform)
@@ -113,6 +115,7 @@ export class Animation {
 			const { position, rotation, scale } = this.animationData.bones[
 				boneName
 			]
+
 			const [positionMod, rotationMod, scaleMod] = [
 				position,
 				rotation,

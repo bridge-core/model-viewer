@@ -157,6 +157,7 @@ export class Model {
 
 	createOutlinedBox(
 		color: `#${string}`,
+		position: { x: number; y: number; z: number },
 		size: { x: number; y: number; z: number }
 	) {
 		const outlineMaterial = new LineBasicMaterial({
@@ -168,7 +169,7 @@ export class Model {
 		const edges = new EdgesGeometry(cube)
 
 		const mesh = new LineSegments(edges, outlineMaterial)
-		mesh.position.set(0, size.y / 2, 0)
+		mesh.position.set(position.x, position.y + size.y / 2, position.z)
 
 		this.model.add(mesh)
 

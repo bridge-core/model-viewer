@@ -12,7 +12,11 @@ export declare class Model {
     getLocator(name: string): Group | undefined;
     tick(): void;
     get shouldTick(): boolean;
-    createOutlinedBox(color: `#${string}`, size: {
+    createOutlinedBox(color: `#${string}`, position: {
+        x: number;
+        y: number;
+        z: number;
+    }, size: {
         x: number;
         y: number;
         z: number;

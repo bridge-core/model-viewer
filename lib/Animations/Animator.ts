@@ -20,6 +20,7 @@ export class Animator {
 	}
 
 	dispose() {
+		this.disposeAnimations()
 		// Remove custom animation data from bones
 		for (let bone of this.model.getBoneMap().values()) {
 			delete bone.userData.defaultRotation

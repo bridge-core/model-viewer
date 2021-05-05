@@ -25,6 +25,7 @@ export declare class Animation {
     play(): void;
     pause(): void;
     loop(): void;
+    dispose(): void;
     get currentTime(): number;
     get roundedCurrentTime(): number;
     get shouldTick(): boolean;

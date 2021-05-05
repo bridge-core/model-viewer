@@ -1,8 +1,11 @@
 import { IParticleEffect } from '../Schema/Animation'
 import { AnimationEffect } from './AnimationEffect'
 import Wintersky from 'wintersky'
+import { IDisposable } from '../Disposable'
 
 export class ParticleEffect extends AnimationEffect<IParticleEffect> {
+	protected disposable?: IDisposable
+
 	tick() {
 		this.tickingEffects.forEach((effect) => effect.tick())
 
@@ -28,9 +31,7 @@ export class ParticleEffect extends AnimationEffect<IParticleEffect> {
 		)
 
 		if (locatorGroup) {
-			// @ts-ignore
 			locatorGroup.add(emitter.local_space)
-			// @ts-ignore
 			emitter.local_space.parent = locatorGroup
 		}
 
@@ -49,8 +50,20 @@ export class ParticleEffect extends AnimationEffect<IParticleEffect> {
 			},
 		}
 		this.tickingEffects.push(tickable)
+		this.disposable = {
+			dispose: () => {
+				emitter.delete()
+				this.tickingEffects = this.tickingEffects.filter(
+					(current) => current !== tickable
+				)
+			},
+		}
 
 		emitter.start()
 		emitter.tick()
+	}
+
+	dispose() {
+		this.disposable?.dispose()
 	}
 }

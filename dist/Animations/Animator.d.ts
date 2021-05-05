@@ -10,6 +10,7 @@ export declare class Animator {
     constructor(model: Model);
     setupDefaultBonePoses(): void;
     dispose(): void;
+    disposeAnimations(): void;
     setupWintersky(winterskyScene: Wintersky.Scene): void;
     addAnimation(id: string, animationData: ISingleAnimation): void;
     addEmitter(shortName: string, emitterConfig: Wintersky.Config): void;

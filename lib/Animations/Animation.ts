@@ -4,7 +4,7 @@ import {
 	TBoneModifier,
 	TTimestampEntry,
 } from '../Schema/Animation'
-import { Group, MathUtils } from 'three'
+import { MathUtils } from 'three'
 import { SoundEffect } from './SoundEffect'
 import { ParticleEffect } from './ParticleEffect'
 import { Animator } from './Animator'
@@ -165,6 +165,9 @@ export class Animation {
 		this.startTimestamp = Date.now()
 		this.soundEffects.reset()
 		this.particleEffects.reset()
+	}
+	dispose() {
+		this.particleEffects.dispose()
 	}
 
 	get currentTime() {

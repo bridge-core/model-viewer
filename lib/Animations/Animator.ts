@@ -26,6 +26,9 @@ export class Animator {
 			delete bone.userData.defaultPosition
 		}
 	}
+	disposeAnimations() {
+		this.animations.forEach((anim) => anim.dispose())
+	}
 
 	setupWintersky(winterskyScene: Wintersky.Scene) {
 		this.winterskyScene = winterskyScene

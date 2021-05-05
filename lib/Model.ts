@@ -22,7 +22,7 @@ export class Model {
 	public readonly animator = new Animator(this)
 
 	constructor(modelData: IGeoSchema, texturePath: string) {
-		const id = modelData.description?.identifier ?? 'geometry.unknown'
+		const id = modelData?.description?.identifier ?? 'geometry.unknown'
 		const textureSize: [number, number] = [
 			modelData.description?.texture_width ?? 128,
 			modelData.description?.texture_height ?? 128,

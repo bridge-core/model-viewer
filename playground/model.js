@@ -1,45 +1,86 @@
 export const sleepAnimation = {
 	loop: true,
+	animation_length: 2,
+	particle_effects: {
+		'2.0': [
+			{
+				effect: 'heart',
+				locator: 'above_head',
+			},
+			{
+				effect: 'heart',
+			},
+		],
+	},
 	bones: {
-		head: {
-			rotation: [
-				'-11.46 * math.cos(query.life_time * 343.8) / 4',
-				0.0,
-				0.0,
-			],
-		},
 		body: {
-			rotation: [
-				'query.target_x_rotation - 2.865 + (-2.865 * math.cos(query.life_time * 343.8))',
-				'query.target_y_rotation',
-				0.0,
-			],
+			rotation: [60, 0, 90],
+			position: [0, -5.5, 0],
+			scale: {
+				'0.0': [1, 1, 1],
+				'1.0': [1.025, 1.025, 1.025],
+				'2.0': [1, 1, 1],
+			},
 		},
-		left_fin: {
-			rotation: [
-				0.0,
-				0.0,
-				'17.19 * math.cos(query.life_time * 229.2) + 22.92',
-			],
+		left_front_leg: {
+			rotation: [70, -2, 120],
+			position: [-6, -12, -3],
 		},
-		right_fin: {
-			rotation: [
-				0.0,
-				0.0,
-				'-17.19 * math.cos(query.life_time * 229.2) - 22.92',
-			],
+		right_front_leg: {
+			rotation: [25, -280, 40],
+			position: {
+				'0.0': [1, -4, 0],
+				'1.0': [0.75, -3.75, 0],
+				'2.0': [1, -4, 0],
+			},
+		},
+		left_back_leg: {
+			rotation: [30, 30, 50],
+			position: {
+				'0.0': [-8, 3, 7],
+				'1.0': [-8.25, 3.25, 7],
+				'2.0': [-8, 3, 7],
+			},
+		},
+		right_back_leg: {
+			rotation: [0, 0, 95],
+			position: [-1, -2, 7],
+		},
+		head: {
+			rotation: {
+				'0.0': [25, -15, 90],
+				'1.0': [25, -14.5, 90],
+				'2.0': [25, -15, 90],
+			},
+			position: [0, -12, -5],
 		},
 		tail: {
-			rotation: ['-5.73 * math.cos(query.life_time * 343.8)', 0.0, 0.0],
+			rotation: {
+				'0.0': [-20, 15, 60],
+				'1.0': [-20.5, 14.75, 60.5],
+				'2.0': [-20, 15, 60],
+			},
+			position: {
+				'0.0': [0, -1, 3],
+				'1.0': [0, -1, 3.25],
+				'2.0': [0, -1, 3],
+			},
 		},
-		tail_fin: {
-			rotation: ['-11.46 * math.cos(query.life_time * 343.8)', 0.0, 0.0],
+		left_wing: {
+			rotation: {
+				'0.0': [75, 0, 15],
+				'1.0': [75, 0, 17],
+				'2.0': [75, 0, 15],
+			},
+			position: [3, -11, -4],
 		},
-	},
-	particle_effects: {
-		'1.0': {
-			effect: 'heart',
-			locator: 'above_head',
+		right_wing: {
+			rotation: {
+				'0.0': [70, 0, -190],
+				'1.0': [70, 0, -192],
+				'2.0': [70, 0, -190],
+			},
+			position: [6, -8, -5],
 		},
 	},
 }

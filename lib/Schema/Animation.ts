@@ -19,7 +19,7 @@ export interface ISingleAnimation {
 }
 
 export interface ITimestamp<T> {
-	[timeStamp: string]: T
+	[timeStamp: string]: T | T[]
 }
 
 export interface ISoundEffect {

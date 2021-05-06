@@ -17,7 +17,7 @@ export interface ISingleAnimation {
     particle_effects: ITimestamp<IParticleEffect>;
 }
 export interface ITimestamp<T> {
-    [timeStamp: string]: T;
+    [timeStamp: string]: T | T[];
 }
 export interface ISoundEffect {
     effect?: string;

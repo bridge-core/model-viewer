@@ -160,7 +160,7 @@ export class Model {
 		return this.animator.shouldTick
 	}
 
-	createOutlinedBox(
+	createOutlineBox(
 		color: `#${string}`,
 		position: { x: number; y: number; z: number },
 		size: { x: number; y: number; z: number }

@@ -18,7 +18,7 @@ export interface IBoneSchema {
 	bind_pose_rotation?: [number, number, number]
 	mirror?: boolean
 	cubes?: ICubeSchema[]
-	locators?: Record<string, [number, number, number]>
+	locators?: Record<string, TVector | { offset: TVector; rotation: TVector }>
 	poly_mesh?: IPolyMesh
 }
 

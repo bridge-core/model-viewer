@@ -118,7 +118,15 @@ export class Model {
 			for (const locatorName in locators) {
 				const locator = new Group()
 				locator.name = `locator#${locatorName}`
-				locator.position.set(...locators[locatorName])
+				const locData = locators[locatorName]
+
+				if (Array.isArray(locData)) {
+					locator.position.set(...locData)
+				} else if (typeof locData === 'object') {
+					locator.position.set(...(locData.offset ?? [0, 0, 0]))
+					locator.rotation.set(...(locData.rotation ?? [0, 0, 0]))
+				}
+
 				this.locators.set(locatorName, locator)
 				pivotGroup.add(locator)
 			}

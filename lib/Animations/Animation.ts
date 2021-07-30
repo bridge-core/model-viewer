@@ -19,19 +19,22 @@ export class Animation {
 		'query.life_time': () => this.currentTime,
 	}
 	protected molang = new MoLang(this.env)
-	protected soundEffects = new SoundEffect(
-		this,
-		this.animationData.sound_effects ?? {}
-	)
-	protected particleEffects = new ParticleEffect(
-		this,
-		this.animationData.particle_effects ?? {}
-	)
+	protected soundEffects: SoundEffect
+	protected particleEffects: ParticleEffect
 
 	constructor(
 		protected animator: Animator,
 		protected animationData: ISingleAnimation
-	) {}
+	) {
+		this.soundEffects = new SoundEffect(
+			this,
+			this.animationData.sound_effects ?? {}
+		)
+		this.particleEffects = new ParticleEffect(
+			this,
+			this.animationData.particle_effects ?? {}
+		)
+	}
 
 	getAnimator() {
 		return this.animator
@@ -76,9 +79,10 @@ export class Animation {
 					}
 				} else {
 					// Interpolation between two timestamps
-					let [nextTime, nextTransform] = timestamps[
-						MathUtils.euclideanModulo(i + 1, timestamps.length)
-					]
+					let [nextTime, nextTransform] =
+						timestamps[
+							MathUtils.euclideanModulo(i + 1, timestamps.length)
+						]
 					let timeDelta = nextTime - time
 
 					if (
@@ -112,9 +116,8 @@ export class Animation {
 		for (let boneName in this.animationData.bones) {
 			const bone = boneMap.get(boneName)
 			if (!bone) continue
-			const { position, rotation, scale } = this.animationData.bones[
-				boneName
-			]
+			const { position, rotation, scale } =
+				this.animationData.bones[boneName]
 
 			const [positionMod, rotationMod, scaleMod] = [
 				position,

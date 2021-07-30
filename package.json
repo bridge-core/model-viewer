@@ -1,6 +1,6 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.6.2",
+	"version": "0.6.3",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "index.js",
 	"cjs": "dist/main.cjs.js",
@@ -34,7 +34,7 @@
 		"rollup-plugin-terser": "^7.0.0",
 		"rollup-plugin-typescript2": "^0.27.2",
 		"ts-jest": "^24.2.0",
-		"typescript": "^4.2.4",
+		"typescript": "^4.3.5",
 		"vite": "^2.0.0-beta.69"
 	},
 	"dependencies": {

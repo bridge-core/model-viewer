@@ -18,7 +18,9 @@ export declare class StandaloneModelViewer {
     protected camera: PerspectiveCamera;
     protected renderingRequested: boolean;
     protected controls: OrbitControls;
+    readonly loadedModel: Promise<void>;
     constructor(canvasElement: HTMLCanvasElement, modelData: IGeoSchema, texturePath: string, options: IOptions);
+    protected loadModel(): Promise<void>;
     protected get width(): number;
     protected get height(): number;
     protected render(checkShouldTick?: boolean): void;

@@ -8,6 +8,7 @@ import {
 	MathUtils,
 	MeshLambertMaterial,
 	NearestFilter,
+	Texture,
 	TextureLoader,
 } from 'three'
 import { Animator } from './Animations/Animator'
@@ -21,19 +22,30 @@ export class Model {
 	protected locators = new Map<string, Group>()
 	public readonly animator = new Animator(this)
 
-	constructor(modelData: IGeoSchema, texturePath: string) {
+	constructor(
+		protected modelData: IGeoSchema,
+		protected texturePath: string
+	) {
 		const id = modelData?.description?.identifier ?? 'geometry.unknown'
-		const textureSize: [number, number] = [
-			modelData?.description?.texture_width ?? 128,
-			modelData?.description?.texture_height ?? 128,
-		]
-		const boneParentMap = new Map<string, [string | undefined, Group]>()
 
 		this.model = new Group()
 		this.model.name = id
+	}
 
-		const loader = new TextureLoader()
-		const texture = loader.load(texturePath)
+	async create() {
+		const modelData = this.modelData
+		const texture = await this.loadTexture(this.texturePath)
+
+		const textureSize: [number, number] = [
+			modelData?.description?.texture_width ?? texture.image.width,
+			modelData?.description?.texture_height ?? texture.image.height,
+		]
+		const textureDiscrepancyFactor: [number, number] = [
+			texture.image.width / textureSize[0],
+			texture.image.height / textureSize[1],
+		]
+		const boneParentMap = new Map<string, [string | undefined, Group]>()
+
 		texture.magFilter = NearestFilter
 		texture.minFilter = NearestFilter
 		const modelMaterial = new MeshLambertMaterial({
@@ -70,6 +82,7 @@ export class Model {
 					depth: cubeData.size?.[2] ?? 0,
 					startUV: cubeData.uv,
 					textureSize,
+					textureDiscrepancyFactor,
 					material: modelMaterial,
 					mirror:
 						cubeData.mirror === undefined &&
@@ -196,5 +209,14 @@ export class Model {
 
 	dispose() {
 		this.animator.dispose()
+	}
+
+	protected loadTexture(url: string) {
+		return new Promise<Texture>((resolve, reject) => {
+			const loader = new TextureLoader()
+			loader.load(url, (texture) => {
+				resolve(texture)
+			})
+		})
 	}
 }

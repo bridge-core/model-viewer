@@ -29,6 +29,7 @@ export class StandaloneModelViewer {
 	protected camera: PerspectiveCamera
 	protected renderingRequested = false
 	protected controls: OrbitControls
+	public readonly loadedModel: Promise<void>
 
 	constructor(
 		protected canvasElement: HTMLCanvasElement,
@@ -58,6 +59,11 @@ export class StandaloneModelViewer {
 		this.controls.addEventListener('change', () => this.requestRendering())
 
 		this.onResize()
+		this.loadedModel = this.loadModel().then(() => this.requestRendering())
+	}
+
+	protected async loadModel() {
+		await this.model.create()
 	}
 
 	protected get width() {

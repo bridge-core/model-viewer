@@ -17,6 +17,11 @@ export const viewer = new StandaloneModelViewer(
 		antialias: true,
 	}
 )
+
+await viewer.loadedModel
+// viewer.addHelpers()
+viewer.positionCamera()
+
 const model = viewer.getModel()
 const winterskyScene = new Wintersky.Scene()
 winterskyScene.global_options.loop_mode = 'once'
@@ -31,8 +36,7 @@ model.animator.addEmitter(
 )
 model.animator.addAnimation('idle', animation)
 model.animator.addAnimation('sleep', sleepAnimation)
-// viewer.addHelpers()
-viewer.positionCamera()
+
 setTimeout(() => viewer.requestRendering(), 100)
 model.animator.play('sleep')
 // model.animator.play('idle')

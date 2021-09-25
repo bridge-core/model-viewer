@@ -17,6 +17,7 @@ export interface ICubeConfig {
     depth: number;
     startUV?: [number, number] | IUVObj;
     textureSize: [number, number];
+    textureDiscrepancyFactor: [number, number];
     mirror: boolean;
     material: Material;
     origin: [number, number, number];

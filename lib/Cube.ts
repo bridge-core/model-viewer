@@ -28,6 +28,7 @@ export interface ICubeConfig {
 	depth: number
 	startUV?: [number, number] | IUVObj
 	textureSize: [number, number]
+	textureDiscrepancyFactor: [number, number]
 	mirror: boolean
 	material: Material
 	origin: [number, number, number]
@@ -47,6 +48,7 @@ export class Cube {
 	constructor(cubeConfig: ICubeConfig) {
 		const {
 			textureSize: [tW, tH],
+			textureDiscrepancyFactor: [tDW, tDH],
 			mirror,
 			width,
 			height,
@@ -57,6 +59,8 @@ export class Cube {
 		let uvX: number = 0,
 			uvY: number = 0
 		if (!usesUVObj) [uvX, uvY] = startUV as [number, number]
+
+		const [rTW, rTH] = [tW * tDW, tH * tDH]
 
 		for (let {
 			name,
@@ -70,6 +74,12 @@ export class Cube {
 				if ((startUV as IUVObj)[name] === undefined) continue
 				;[uvX, uvY] = (startUV as IUVObj)[name]?.uv || []
 				;[uvSizeX, uvSizeY] = (startUV as IUVObj)[name]?.uv_size || []
+
+				uvSizeX *= tDW
+				uvSizeY *= tDH
+				uvX *= tDW
+				uvY *= tDH
+
 				baseUVX = 0
 				baseUVY = 0
 			}
@@ -97,7 +107,7 @@ export class Cube {
 							(name === 'west' || name === 'east'
 								? Math.floor(uvSizeX ?? depth)
 								: Math.floor(uvSizeX ?? width))) /
-						tW,
+						rTW,
 					//Align uv to top left corner
 					1 -
 						//Base offset of the current cube
@@ -112,7 +122,7 @@ export class Cube {
 								(name === 'up' || name === 'down'
 									? Math.floor(uvSizeY ?? depth)
 									: Math.floor(uvSizeY ?? height))) /
-							tH
+							rTH
 				)
 			}
 

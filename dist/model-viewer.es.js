@@ -32,6 +32,7 @@ class OrbitControls extends EventDispatcher {
       console.error('THREE.OrbitControls: "document" should not be used as the target "domElement". Please use "renderer.domElement" instead.');
     this.object = object;
     this.domElement = domElement;
+    this.domElement.style.touchAction = "none";
     this.enabled = true;
     this.target = new Vector3();
     this.minDistance = 0;
@@ -66,6 +67,9 @@ class OrbitControls extends EventDispatcher {
     };
     this.getAzimuthalAngle = function() {
       return spherical.theta;
+    };
+    this.getDistance = function() {
+      return this.object.position.distanceTo(this.target);
     };
     this.listenToKeyEvents = function(domElement2) {
       domElement2.addEventListener("keydown", onKeyDown);
@@ -159,12 +163,10 @@ class OrbitControls extends EventDispatcher {
     this.dispose = function() {
       scope.domElement.removeEventListener("contextmenu", onContextMenu);
       scope.domElement.removeEventListener("pointerdown", onPointerDown);
+      scope.domElement.removeEventListener("pointercancel", onPointerCancel);
       scope.domElement.removeEventListener("wheel", onMouseWheel);
-      scope.domElement.removeEventListener("touchstart", onTouchStart);
-      scope.domElement.removeEventListener("touchend", onTouchEnd);
-      scope.domElement.removeEventListener("touchmove", onTouchMove);
-      scope.domElement.ownerDocument.removeEventListener("pointermove", onPointerMove);
-      scope.domElement.ownerDocument.removeEventListener("pointerup", onPointerUp);
+      scope.domElement.removeEventListener("pointermove", onPointerMove);
+      scope.domElement.removeEventListener("pointerup", onPointerUp);
       if (scope._domElementKeyEvents !== null) {
         scope._domElementKeyEvents.removeEventListener("keydown", onKeyDown);
       }
@@ -196,6 +198,8 @@ class OrbitControls extends EventDispatcher {
     const dollyStart = new Vector2();
     const dollyEnd = new Vector2();
     const dollyDelta = new Vector2();
+    const pointers = [];
+    const pointerPositions = {};
     function getAutoRotationAngle() {
       return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
     }
@@ -342,48 +346,49 @@ class OrbitControls extends EventDispatcher {
         scope.update();
       }
     }
-    function handleTouchStartRotate(event) {
-      if (event.touches.length == 1) {
-        rotateStart.set(event.touches[0].pageX, event.touches[0].pageY);
+    function handleTouchStartRotate() {
+      if (pointers.length === 1) {
+        rotateStart.set(pointers[0].pageX, pointers[0].pageY);
       } else {
-        const x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
-        const y = 0.5 * (event.touches[0].pageY + event.touches[1].pageY);
+        const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+        const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
         rotateStart.set(x, y);
       }
     }
-    function handleTouchStartPan(event) {
-      if (event.touches.length == 1) {
-        panStart.set(event.touches[0].pageX, event.touches[0].pageY);
+    function handleTouchStartPan() {
+      if (pointers.length === 1) {
+        panStart.set(pointers[0].pageX, pointers[0].pageY);
       } else {
-        const x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
-        const y = 0.5 * (event.touches[0].pageY + event.touches[1].pageY);
+        const x = 0.5 * (pointers[0].pageX + pointers[1].pageX);
+        const y = 0.5 * (pointers[0].pageY + pointers[1].pageY);
         panStart.set(x, y);
       }
     }
-    function handleTouchStartDolly(event) {
-      const dx = event.touches[0].pageX - event.touches[1].pageX;
-      const dy = event.touches[0].pageY - event.touches[1].pageY;
+    function handleTouchStartDolly() {
+      const dx = pointers[0].pageX - pointers[1].pageX;
+      const dy = pointers[0].pageY - pointers[1].pageY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       dollyStart.set(0, distance);
     }
-    function handleTouchStartDollyPan(event) {
+    function handleTouchStartDollyPan() {
       if (scope.enableZoom)
-        handleTouchStartDolly(event);
+        handleTouchStartDolly();
       if (scope.enablePan)
-        handleTouchStartPan(event);
+        handleTouchStartPan();
     }
-    function handleTouchStartDollyRotate(event) {
+    function handleTouchStartDollyRotate() {
       if (scope.enableZoom)
-        handleTouchStartDolly(event);
+        handleTouchStartDolly();
       if (scope.enableRotate)
-        handleTouchStartRotate(event);
+        handleTouchStartRotate();
     }
     function handleTouchMoveRotate(event) {
-      if (event.touches.length == 1) {
-        rotateEnd.set(event.touches[0].pageX, event.touches[0].pageY);
+      if (pointers.length == 1) {
+        rotateEnd.set(event.pageX, event.pageY);
       } else {
-        const x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
-        const y = 0.5 * (event.touches[0].pageY + event.touches[1].pageY);
+        const position = getSecondPointerPosition(event);
+        const x = 0.5 * (event.pageX + position.x);
+        const y = 0.5 * (event.pageY + position.y);
         rotateEnd.set(x, y);
       }
       rotateDelta.subVectors(rotateEnd, rotateStart).multiplyScalar(scope.rotateSpeed);
@@ -393,11 +398,12 @@ class OrbitControls extends EventDispatcher {
       rotateStart.copy(rotateEnd);
     }
     function handleTouchMovePan(event) {
-      if (event.touches.length == 1) {
-        panEnd.set(event.touches[0].pageX, event.touches[0].pageY);
+      if (pointers.length === 1) {
+        panEnd.set(event.pageX, event.pageY);
       } else {
-        const x = 0.5 * (event.touches[0].pageX + event.touches[1].pageX);
-        const y = 0.5 * (event.touches[0].pageY + event.touches[1].pageY);
+        const position = getSecondPointerPosition(event);
+        const x = 0.5 * (event.pageX + position.x);
+        const y = 0.5 * (event.pageY + position.y);
         panEnd.set(x, y);
       }
       panDelta.subVectors(panEnd, panStart).multiplyScalar(scope.panSpeed);
@@ -405,8 +411,9 @@ class OrbitControls extends EventDispatcher {
       panStart.copy(panEnd);
     }
     function handleTouchMoveDolly(event) {
-      const dx = event.touches[0].pageX - event.touches[1].pageX;
-      const dy = event.touches[0].pageY - event.touches[1].pageY;
+      const position = getSecondPointerPosition(event);
+      const dx = event.pageX - position.x;
+      const dy = event.pageY - position.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       dollyEnd.set(0, distance);
       dollyDelta.set(0, Math.pow(dollyEnd.y / dollyStart.y, scope.zoomSpeed));
@@ -428,34 +435,41 @@ class OrbitControls extends EventDispatcher {
     function onPointerDown(event) {
       if (scope.enabled === false)
         return;
-      switch (event.pointerType) {
-        case "mouse":
-        case "pen":
-          onMouseDown(event);
-          break;
+      if (pointers.length === 0) {
+        scope.domElement.setPointerCapture(event.pointerId);
+        scope.domElement.addEventListener("pointermove", onPointerMove);
+        scope.domElement.addEventListener("pointerup", onPointerUp);
+      }
+      addPointer(event);
+      if (event.pointerType === "touch") {
+        onTouchStart(event);
+      } else {
+        onMouseDown(event);
       }
     }
     function onPointerMove(event) {
       if (scope.enabled === false)
         return;
-      switch (event.pointerType) {
-        case "mouse":
-        case "pen":
-          onMouseMove(event);
-          break;
+      if (event.pointerType === "touch") {
+        onTouchMove(event);
+      } else {
+        onMouseMove(event);
       }
     }
     function onPointerUp(event) {
-      switch (event.pointerType) {
-        case "mouse":
-        case "pen":
-          onMouseUp();
-          break;
+      removePointer(event);
+      if (pointers.length === 0) {
+        scope.domElement.releasePointerCapture(event.pointerId);
+        scope.domElement.removeEventListener("pointermove", onPointerMove);
+        scope.domElement.removeEventListener("pointerup", onPointerUp);
       }
+      scope.dispatchEvent(_endEvent);
+      state = STATE.NONE;
+    }
+    function onPointerCancel(event) {
+      removePointer(event);
     }
     function onMouseDown(event) {
-      event.preventDefault();
-      scope.domElement.focus ? scope.domElement.focus() : window.focus();
       let mouseAction;
       switch (event.button) {
         case 0:
@@ -507,15 +521,12 @@ class OrbitControls extends EventDispatcher {
           state = STATE.NONE;
       }
       if (state !== STATE.NONE) {
-        scope.domElement.ownerDocument.addEventListener("pointermove", onPointerMove);
-        scope.domElement.ownerDocument.addEventListener("pointerup", onPointerUp);
         scope.dispatchEvent(_startEvent);
       }
     }
     function onMouseMove(event) {
       if (scope.enabled === false)
         return;
-      event.preventDefault();
       switch (state) {
         case STATE.ROTATE:
           if (scope.enableRotate === false)
@@ -534,16 +545,8 @@ class OrbitControls extends EventDispatcher {
           break;
       }
     }
-    function onMouseUp(event) {
-      scope.domElement.ownerDocument.removeEventListener("pointermove", onPointerMove);
-      scope.domElement.ownerDocument.removeEventListener("pointerup", onPointerUp);
-      if (scope.enabled === false)
-        return;
-      scope.dispatchEvent(_endEvent);
-      state = STATE.NONE;
-    }
     function onMouseWheel(event) {
-      if (scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE && state !== STATE.ROTATE)
+      if (scope.enabled === false || scope.enableZoom === false || state !== STATE.NONE)
         return;
       event.preventDefault();
       scope.dispatchEvent(_startEvent);
@@ -556,22 +559,20 @@ class OrbitControls extends EventDispatcher {
       handleKeyDown(event);
     }
     function onTouchStart(event) {
-      if (scope.enabled === false)
-        return;
-      event.preventDefault();
-      switch (event.touches.length) {
+      trackPointer(event);
+      switch (pointers.length) {
         case 1:
           switch (scope.touches.ONE) {
             case TOUCH.ROTATE:
               if (scope.enableRotate === false)
                 return;
-              handleTouchStartRotate(event);
+              handleTouchStartRotate();
               state = STATE.TOUCH_ROTATE;
               break;
             case TOUCH.PAN:
               if (scope.enablePan === false)
                 return;
-              handleTouchStartPan(event);
+              handleTouchStartPan();
               state = STATE.TOUCH_PAN;
               break;
             default:
@@ -583,13 +584,13 @@ class OrbitControls extends EventDispatcher {
             case TOUCH.DOLLY_PAN:
               if (scope.enableZoom === false && scope.enablePan === false)
                 return;
-              handleTouchStartDollyPan(event);
+              handleTouchStartDollyPan();
               state = STATE.TOUCH_DOLLY_PAN;
               break;
             case TOUCH.DOLLY_ROTATE:
               if (scope.enableZoom === false && scope.enableRotate === false)
                 return;
-              handleTouchStartDollyRotate(event);
+              handleTouchStartDollyRotate();
               state = STATE.TOUCH_DOLLY_ROTATE;
               break;
             default:
@@ -604,9 +605,7 @@ class OrbitControls extends EventDispatcher {
       }
     }
     function onTouchMove(event) {
-      if (scope.enabled === false)
-        return;
-      event.preventDefault();
+      trackPointer(event);
       switch (state) {
         case STATE.TOUCH_ROTATE:
           if (scope.enableRotate === false)
@@ -636,23 +635,39 @@ class OrbitControls extends EventDispatcher {
           state = STATE.NONE;
       }
     }
-    function onTouchEnd(event) {
-      if (scope.enabled === false)
-        return;
-      scope.dispatchEvent(_endEvent);
-      state = STATE.NONE;
-    }
     function onContextMenu(event) {
       if (scope.enabled === false)
         return;
       event.preventDefault();
     }
+    function addPointer(event) {
+      pointers.push(event);
+    }
+    function removePointer(event) {
+      delete pointerPositions[event.pointerId];
+      for (let i = 0; i < pointers.length; i++) {
+        if (pointers[i].pointerId == event.pointerId) {
+          pointers.splice(i, 1);
+          return;
+        }
+      }
+    }
+    function trackPointer(event) {
+      let position = pointerPositions[event.pointerId];
+      if (position === void 0) {
+        position = new Vector2();
+        pointerPositions[event.pointerId] = position;
+      }
+      position.set(event.pageX, event.pageY);
+    }
+    function getSecondPointerPosition(event) {
+      const pointer = event.pointerId === pointers[0].pointerId ? pointers[1] : pointers[0];
+      return pointerPositions[pointer.pointerId];
+    }
     scope.domElement.addEventListener("contextmenu", onContextMenu);
     scope.domElement.addEventListener("pointerdown", onPointerDown);
+    scope.domElement.addEventListener("pointercancel", onPointerCancel);
     scope.domElement.addEventListener("wheel", onMouseWheel, { passive: false });
-    scope.domElement.addEventListener("touchstart", onTouchStart, { passive: false });
-    scope.domElement.addEventListener("touchend", onTouchEnd);
-    scope.domElement.addEventListener("touchmove", onTouchMove, { passive: false });
     this.update();
   }
 }
@@ -996,18 +1011,24 @@ class Cube {
     this.group = new Group();
     const {
       textureSize: [tW, tH],
-      textureDiscrepancyFactor: [tDW, tDH],
+      textureDiscrepancyFactor: [
+        textureDiscrepancyW,
+        textureDiscrepancyH
+      ],
       mirror,
       width,
       height,
       depth
     } = cubeConfig;
+    const [realTextureW, realTextureH] = [
+      tW * textureDiscrepancyW,
+      tH * textureDiscrepancyH
+    ];
     const startUV = (_a = cubeConfig.startUV) != null ? _a : [0, 0];
     const usesUVObj = !Array.isArray(startUV);
     let uvX = 0, uvY = 0;
     if (!usesUVObj)
       [uvX, uvY] = startUV;
-    const [rTW, rTH] = [tW * tDW, tH * tDH];
     for (let {
       name,
       dir,
@@ -1021,10 +1042,10 @@ class Cube {
           continue;
         [uvX, uvY] = ((_b = startUV[name]) == null ? void 0 : _b.uv) || [];
         [uvSizeX, uvSizeY] = ((_c = startUV[name]) == null ? void 0 : _c.uv_size) || [];
-        uvSizeX *= tDW;
-        uvSizeY *= tDH;
-        uvX *= tDW;
-        uvY *= tDH;
+        uvSizeX *= textureDiscrepancyW;
+        uvSizeY *= textureDiscrepancyH;
+        uvX *= textureDiscrepancyW;
+        uvY *= textureDiscrepancyH;
         baseUVX = 0;
         baseUVY = 0;
       }
@@ -1034,7 +1055,7 @@ class Cube {
       } of corners) {
         this.positions.push((mirror ? -oX : oX) * width, oY * height, oZ * depth);
         this.normals.push(...dir);
-        this.uvs.push((uvX + (Number(baseUVX > 0) + Number(baseUVX > 2)) * Math.floor(uvSizeX != null ? uvSizeX : depth) + Number(baseUVX > 1) * Math.floor(uvSizeX != null ? uvSizeX : width) + uv[0] * (name === "west" || name === "east" ? Math.floor(uvSizeX != null ? uvSizeX : depth) : Math.floor(uvSizeX != null ? uvSizeX : width))) / rTW, 1 - (uvY + baseUVY * Math.floor(uvSizeY != null ? uvSizeY : depth) + (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height)) - uv[1] * (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height))) / rTH);
+        this.uvs.push((uvX + (Number(baseUVX > 0) + Number(baseUVX > 2)) * Math.floor(uvSizeX != null ? uvSizeX : depth) + Number(baseUVX > 1) * Math.floor(uvSizeX != null ? uvSizeX : width) + uv[0] * (name === "west" || name === "east" ? Math.floor(uvSizeX != null ? uvSizeX : depth) : Math.floor(uvSizeX != null ? uvSizeX : width))) / (realTextureW / (!usesUVObj ? textureDiscrepancyW : 1)), 1 - (uvY + baseUVY * Math.floor(uvSizeY != null ? uvSizeY : depth) + (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height)) - uv[1] * (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height))) / (realTextureH / (!usesUVObj ? textureDiscrepancyH : 1)));
       }
       this.indices.push(ndx, ndx + 1, ndx + 2, ndx + 2, ndx + 1, ndx + 3);
     }
@@ -1272,6 +1293,19 @@ class Model {
         this.model.remove(mesh);
       }
     };
+  }
+  hideBone(name) {
+    const bone = this.boneMap.get(name);
+    if (bone)
+      bone.visible = false;
+  }
+  showBone(name) {
+    const bone = this.boneMap.get(name);
+    if (bone)
+      bone.visible = true;
+  }
+  get bones() {
+    return [...this.boneMap.keys()];
   }
   dispose() {
     this.animator.dispose();

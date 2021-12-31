@@ -62,7 +62,7 @@ export class Cube {
 			tH * textureDiscrepancyH,
 		]
 
-		// The base UV provided by the model file
+		// The base UV provided by the model file for this cube
 		const startUV = cubeConfig.startUV ?? [0, 0]
 		const usesUVObj = !Array.isArray(startUV)
 		let uvX: number = 0,

@@ -26,6 +26,9 @@ export declare class Model {
     }): {
         dispose: () => void;
     };
+    hideBone(name: string): void;
+    showBone(name: string): void;
+    get bones(): string[];
     dispose(): void;
     protected loadTexture(url: string): Promise<Texture>;
 }

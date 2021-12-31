@@ -1,15 +1,16 @@
 {
-	"compileOnSave": true,
 	"compilerOptions": {
 		/* Basic Options */
-		"target": "ESNext",
+		"target": "ES2021",
 		"module": "CommonJS",
 		"moduleResolution": "node",
+		"outDir": "./dist/",
 		"rootDir": "./lib/",
-		"composite": true,
+		"composite": false,
 		"removeComments": true,
 		"sourceMap": false,
 		"declaration": true,
+		"emitDeclarationOnly": true,
 
 		/* Strict Type-Checking Options */
 		"strict": true,
@@ -20,6 +21,5 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true
 	},
-	"include": ["lib/**/*.ts"],
-	"types": ["node", "jest"]
+	"include": ["./lib/**/*.ts"]
 }

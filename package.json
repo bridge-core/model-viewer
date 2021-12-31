@@ -2,22 +2,25 @@
 	"name": "bridge-model-viewer",
 	"version": "0.7.1",
 	"description": "A fast parser for Minecraft's MoLang",
-	"main": "index.js",
-	"cjs": "dist/main.cjs.js",
-	"module": "dist/main.esm.js",
-	"unpkg": "dist/main.web.js",
-	"jsdelivr": "dist/main.web.js",
-	"types": "dist/main.d.ts",
 	"directories": {
 		"lib": "lib"
 	},
 	"scripts": {
-		"build": "rollup -c",
-		"dev": "vite"
+		"build:types": "tsc --project tsconfig.json",
+		"build": "vite build && npm run build:types",
+		"dev": "vite dev ./playground"
 	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/solvedDev/MoLang.git"
+	"files": [
+		"dist"
+	],
+	"main": "./dist/model-viewer.umd.js",
+	"module": "./dist/model-viewer.es.js",
+	"types": "./dist/main.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/model-viewer.es.js",
+			"require": "./dist/model-viewer.umd.js"
+		}
 	},
 	"author": "solvedDev",
 	"license": "MIT",
@@ -26,16 +29,9 @@
 	},
 	"homepage": "https://github.com/solvedDev/MoLang#readme",
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "^15.0.0",
-		"@rollup/plugin-node-resolve": "^10.0.0",
 		"@types/three": "^0.127.1",
-		"rollup": "^2.26.5",
-		"rollup-plugin-auto-external": "^2.0.0",
-		"rollup-plugin-terser": "^7.0.0",
-		"rollup-plugin-typescript2": "^0.27.2",
-		"ts-jest": "^24.2.0",
 		"typescript": "^4.3.5",
-		"vite": "^2.0.0-beta.69"
+		"vite": "^2.7.10"
 	},
 	"dependencies": {
 		"molang": "^1.13.4",

@@ -207,6 +207,18 @@ export class Model {
 		}
 	}
 
+	hideBone(name: string) {
+		const bone = this.boneMap.get(name)
+		if (bone) bone.visible = false
+	}
+	showBone(name: string) {
+		const bone = this.boneMap.get(name)
+		if (bone) bone.visible = true
+	}
+	get bones() {
+		return [...this.boneMap.keys()]
+	}
+
 	dispose() {
 		this.animator.dispose()
 	}

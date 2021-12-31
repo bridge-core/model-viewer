@@ -48,19 +48,26 @@ export class Cube {
 	constructor(cubeConfig: ICubeConfig) {
 		const {
 			textureSize: [tW, tH],
-			textureDiscrepancyFactor: [tDW, tDH],
+			textureDiscrepancyFactor: [
+				textureDiscrepancyW,
+				textureDiscrepancyH,
+			],
 			mirror,
 			width,
 			height,
 			depth,
 		} = cubeConfig
+		const [realTextureW, realTextureH] = [
+			tW * textureDiscrepancyW,
+			tH * textureDiscrepancyH,
+		]
+
+		// The base UV provided by the model file
 		const startUV = cubeConfig.startUV ?? [0, 0]
 		const usesUVObj = !Array.isArray(startUV)
 		let uvX: number = 0,
 			uvY: number = 0
 		if (!usesUVObj) [uvX, uvY] = startUV as [number, number]
-
-		const [rTW, rTH] = [tW * tDW, tH * tDH]
 
 		for (let {
 			name,
@@ -75,10 +82,10 @@ export class Cube {
 				;[uvX, uvY] = (startUV as IUVObj)[name]?.uv || []
 				;[uvSizeX, uvSizeY] = (startUV as IUVObj)[name]?.uv_size || []
 
-				uvSizeX *= tDW
-				uvSizeY *= tDH
-				uvX *= tDW
-				uvY *= tDH
+				uvSizeX *= textureDiscrepancyW
+				uvSizeY *= textureDiscrepancyH
+				uvX *= textureDiscrepancyW
+				uvY *= textureDiscrepancyH
 
 				baseUVX = 0
 				baseUVY = 0
@@ -107,7 +114,7 @@ export class Cube {
 							(name === 'west' || name === 'east'
 								? Math.floor(uvSizeX ?? depth)
 								: Math.floor(uvSizeX ?? width))) /
-						rTW,
+						(realTextureW / (!usesUVObj ? textureDiscrepancyW : 1)),
 					//Align uv to top left corner
 					1 -
 						//Base offset of the current cube
@@ -122,7 +129,8 @@ export class Cube {
 								(name === 'up' || name === 'down'
 									? Math.floor(uvSizeY ?? depth)
 									: Math.floor(uvSizeY ?? height))) /
-							rTH
+							(realTextureH /
+								(!usesUVObj ? textureDiscrepancyH : 1))
 				)
 			}
 

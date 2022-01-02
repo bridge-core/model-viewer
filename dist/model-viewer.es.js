@@ -766,7 +766,9 @@ class Animation {
       "query.delta_time": () => this.startTimestamp - this.lastFrameTimestamp,
       "query.life_time": () => this.currentTime
     };
-    this.molang = new MoLang(this.env);
+    this.molang = new MoLang(this.env, {
+      convertUndefined: true
+    });
     this.soundEffects = new SoundEffect(this, (_a = this.animationData.sound_effects) != null ? _a : {});
     this.particleEffects = new ParticleEffect(this, (_b = this.animationData.particle_effects) != null ? _b : {});
   }
@@ -792,7 +794,7 @@ class Animation {
           continue;
         } else if (time === this.currentTime) {
           if (Array.isArray(transform2)) {
-            return transform2;
+            return transform2.map((t) => typeof t === "string" ? this.execute(t) : t);
           } else {
             throw new Error("Format not supported yet");
           }
@@ -800,6 +802,8 @@ class Animation {
           let [nextTime, nextTransform] = timestamps[MathUtils.euclideanModulo(i + 1, timestamps.length)];
           let timeDelta = nextTime - time;
           if (Array.isArray(transform2) && Array.isArray(nextTransform)) {
+            transform2 = transform2.map((t) => typeof t === "string" ? this.execute(t) : t);
+            nextTransform = nextTransform.map((t) => typeof t === "string" ? this.execute(t) : t);
             return transform2.map((n, i2) => n + (nextTransform[i2] - n) / timeDelta * (this.currentTime - time));
           } else {
             throw new Error("Format not supported yet");
@@ -829,7 +833,7 @@ class Animation {
       }
       if (rotationMod) {
         const currentRotation = bone.rotation.toArray();
-        bone.rotation.set(...rotationMod.map(MathUtils.degToRad).map((val, i) => currentRotation[i] + (i === 2 ? val : -val)));
+        bone.rotation.set(...rotationMod.map((n) => MathUtils.degToRad(n)).map((val, i) => currentRotation[i] + (i === 2 ? val : -val)));
       }
       if (scaleMod)
         bone.scale.set(...scaleMod);

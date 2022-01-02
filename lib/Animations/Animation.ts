@@ -18,7 +18,9 @@ export class Animation {
 		'query.delta_time': () => this.startTimestamp - this.lastFrameTimestamp,
 		'query.life_time': () => this.currentTime,
 	}
-	protected molang = new MoLang(this.env)
+	protected molang = new MoLang(this.env, {
+		convertUndefined: true,
+	})
 	protected soundEffects: SoundEffect
 	protected particleEffects: ParticleEffect
 
@@ -72,7 +74,9 @@ export class Animation {
 					continue
 				} else if (time === this.currentTime) {
 					if (Array.isArray(transform)) {
-						return transform as [number, number, number]
+						return transform.map((t) =>
+							typeof t === 'string' ? this.execute(t) : t
+						) as [number, number, number]
 					} else {
 						// TODO
 						throw new Error('Format not supported yet')
@@ -89,6 +93,17 @@ export class Animation {
 						Array.isArray(transform) &&
 						Array.isArray(nextTransform)
 					) {
+						transform = <[number, number, number]>(
+							transform.map((t) =>
+								typeof t === 'string' ? this.execute(t) : t
+							)
+						)
+						nextTransform = <[number, number, number]>(
+							nextTransform.map((t) =>
+								typeof t === 'string' ? this.execute(t) : t
+							)
+						)
+
 						return transform.map(
 							(n, i) =>
 								n +
@@ -139,7 +154,7 @@ export class Animation {
 				const currentRotation = bone.rotation.toArray()
 				bone.rotation.set(
 					...(rotationMod
-						.map(MathUtils.degToRad)
+						.map((n) => MathUtils.degToRad(n))
 						.map(
 							(val, i) =>
 								currentRotation[i] + (i === 2 ? val : -val)

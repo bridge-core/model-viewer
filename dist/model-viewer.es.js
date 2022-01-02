@@ -1000,6 +1000,7 @@ const CubeFaces = [
     ]
   }
 ];
+const ReduceUvConst = 0.03;
 class Cube {
   constructor(cubeConfig) {
     var _a, _b, _c;
@@ -1055,7 +1056,7 @@ class Cube {
       } of corners) {
         this.positions.push((mirror ? -oX : oX) * width, oY * height, oZ * depth);
         this.normals.push(...dir);
-        this.uvs.push((uvX + (Number(baseUVX > 0) + Number(baseUVX > 2)) * Math.floor(uvSizeX != null ? uvSizeX : depth) + Number(baseUVX > 1) * Math.floor(uvSizeX != null ? uvSizeX : width) + uv[0] * (name === "west" || name === "east" ? Math.floor(uvSizeX != null ? uvSizeX : depth) : Math.floor(uvSizeX != null ? uvSizeX : width))) / (realTextureW / (!usesUVObj ? textureDiscrepancyW : 1)), 1 - (uvY + baseUVY * Math.floor(uvSizeY != null ? uvSizeY : depth) + (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height)) - uv[1] * (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height))) / (realTextureH / (!usesUVObj ? textureDiscrepancyH : 1)));
+        this.uvs.push((uvX + (Number(baseUVX > 0) + Number(baseUVX > 2)) * Math.floor(uvSizeX != null ? uvSizeX : depth) + Number(baseUVX > 1) * Math.floor(uvSizeX != null ? uvSizeX : width) + uv[0] * (name === "west" || name === "east" ? Math.floor(uvSizeX != null ? uvSizeX : depth) : Math.floor(uvSizeX != null ? uvSizeX : width)) + (uv[0] === 0 ? ReduceUvConst : -ReduceUvConst)) / (realTextureW / (!usesUVObj ? textureDiscrepancyW : 1)), 1 - (uvY + baseUVY * Math.floor(uvSizeY != null ? uvSizeY : depth) + (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height)) - uv[1] * (name === "up" || name === "down" ? Math.floor(uvSizeY != null ? uvSizeY : depth) : Math.floor(uvSizeY != null ? uvSizeY : height)) + (uv[1] === 0 ? -ReduceUvConst : ReduceUvConst)) / (realTextureH / (!usesUVObj ? textureDiscrepancyH : 1)));
       }
       this.indices.push(ndx, ndx + 1, ndx + 2, ndx + 2, ndx + 1, ndx + 3);
     }

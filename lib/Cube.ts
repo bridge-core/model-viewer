@@ -36,6 +36,7 @@ export interface ICubeConfig {
 	rotation?: [number, number, number]
 	inflate?: number
 }
+const ReduceUvConst = 0.03
 
 export class Cube {
 	protected positions: number[] = []
@@ -113,7 +114,8 @@ export class Cube {
 						uv[0] *
 							(name === 'west' || name === 'east'
 								? Math.floor(uvSizeX ?? depth)
-								: Math.floor(uvSizeX ?? width))) /
+								: Math.floor(uvSizeX ?? width)) +
+						(uv[0] === 0 ? ReduceUvConst : -ReduceUvConst)) /
 						(realTextureW / (!usesUVObj ? textureDiscrepancyW : 1)),
 					//Align uv to top left corner
 					1 -
@@ -128,7 +130,8 @@ export class Cube {
 							uv[1] *
 								(name === 'up' || name === 'down'
 									? Math.floor(uvSizeY ?? depth)
-									: Math.floor(uvSizeY ?? height))) /
+									: Math.floor(uvSizeY ?? height)) +
+							(uv[1] === 0 ? -ReduceUvConst : ReduceUvConst)) /
 							(realTextureH /
 								(!usesUVObj ? textureDiscrepancyH : 1))
 				)

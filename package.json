@@ -1,6 +1,6 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.7.5",
+	"version": "0.7.6",
 	"description": "A fast parser for Minecraft's MoLang",
 	"directories": {
 		"lib": "lib"
@@ -34,7 +34,7 @@
 		"vite": "^2.7.10"
 	},
 	"dependencies": {
-		"molang": "^1.13.4",
+		"molang": "^1.13.5",
 		"three": "^0.136.0",
 		"wintersky": "github:jannisx11/wintersky#pull/11/head"
 	}

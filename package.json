@@ -18,8 +18,14 @@
 	"types": "./dist/main.d.ts",
 	"exports": {
 		".": {
-			"import": "./dist/model-viewer.es.js",
-			"require": "./dist/model-viewer.umd.js"
+			"import": {
+				"types": "./dist/main.d.ts",
+				"default": "./dist/model-viewer.es.js"
+			},
+			"require": {
+				"types": "./dist/main.d.ts",
+				"default": "./dist/model-viewer.umd.js"
+			}      
 		}
 	},
 	"author": "solvedDev",

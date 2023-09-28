@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Model } from './Model';
 import { IGeoSchema } from './Schema/Model';
 export { Model } from './Model';
+export * from './Schema/Model';
+export * from './Schema/Animation';
 export interface IOptions {
     antialias?: boolean;
     width?: number;

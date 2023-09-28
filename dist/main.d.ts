@@ -16,10 +16,10 @@ export declare class StandaloneModelViewer {
     protected options: IOptions;
     protected renderer: WebGLRenderer;
     protected model: Model;
-    protected scene: Scene;
+    readonly scene: Scene;
     protected camera: PerspectiveCamera;
     protected renderingRequested: boolean;
-    protected controls: OrbitControls;
+    readonly controls: OrbitControls;
     readonly loadedModel: Promise<void>;
     constructor(canvasElement: HTMLCanvasElement, modelData: IGeoSchema, texturePath: string, options: IOptions);
     protected loadModel(): Promise<void>;

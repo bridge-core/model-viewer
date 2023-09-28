@@ -28,10 +28,10 @@ export interface IOptions {
 export class StandaloneModelViewer {
 	protected renderer: WebGLRenderer
 	protected model: Model
-	protected scene: Scene
+	public readonly scene: Scene
 	protected camera: PerspectiveCamera
 	protected renderingRequested = false
-	protected controls: OrbitControls
+	public readonly controls: OrbitControls
 	public readonly loadedModel: Promise<void>
 
 	constructor(

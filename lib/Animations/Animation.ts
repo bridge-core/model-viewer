@@ -1,4 +1,4 @@
-import { MoLang } from 'molang'
+import { Molang } from 'molang'
 import {
 	ISingleAnimation,
 	TBoneModifier,
@@ -18,7 +18,7 @@ export class Animation {
 		'query.delta_time': () => this.startTimestamp - this.lastFrameTimestamp,
 		'query.life_time': () => this.currentTime,
 	}
-	protected molang = new MoLang(this.env, {
+	protected molang = new Molang(this.env, {
 		convertUndefined: true,
 	})
 	protected soundEffects: SoundEffect
@@ -157,7 +157,7 @@ export class Animation {
 						.map((n) => MathUtils.degToRad(n))
 						.map(
 							(val, i) =>
-								currentRotation[i] + (i === 2 ? val : -val)
+								(currentRotation[i] as number) + (i === 2 ? val : -val)
 						) as [number, number, number])
 				)
 			}

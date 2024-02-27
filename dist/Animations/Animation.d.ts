@@ -1,4 +1,4 @@
-import { MoLang } from 'molang';
+import { Molang } from 'molang';
 import { ISingleAnimation, TBoneModifier } from '../Schema/Animation';
 import { SoundEffect } from './SoundEffect';
 import { ParticleEffect } from './ParticleEffect';
@@ -14,7 +14,7 @@ export declare class Animation {
         'query.delta_time': () => number;
         'query.life_time': () => number;
     };
-    protected molang: MoLang;
+    protected molang: Molang;
     protected soundEffects: SoundEffect;
     protected particleEffects: ParticleEffect;
     constructor(animator: Animator, animationData: ISingleAnimation);

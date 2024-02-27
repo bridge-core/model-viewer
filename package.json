@@ -25,7 +25,7 @@
 			"require": {
 				"types": "./dist/main.d.ts",
 				"default": "./dist/model-viewer.umd.js"
-			}      
+			}
 		}
 	},
 	"author": "solvedDev",
@@ -42,6 +42,6 @@
 	"dependencies": {
 		"molang": "^2.0.1",
 		"three": "^0.147.0",
-		"wintersky": "^1.2.1"
+		"wintersky": "^1.3.0"
 	}
 }

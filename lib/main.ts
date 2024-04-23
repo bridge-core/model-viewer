@@ -17,6 +17,7 @@ import { IGeoSchema } from './Schema/Model'
 export { Model } from './Model'
 
 export interface IOptions {
+	alpha?: boolean
 	antialias?: boolean
 	width?: number
 	height?: number
@@ -39,6 +40,7 @@ export class StandaloneModelViewer {
 	) {
 		this.renderer = new WebGLRenderer({
 			canvas: canvasElement,
+			alpha: options.alpha ?? false,
 			antialias: options.antialias ?? false,
 		})
 		this.renderer.setPixelRatio(window.devicePixelRatio)
@@ -51,7 +53,11 @@ export class StandaloneModelViewer {
 		this.controls = new OrbitControls(this.camera, canvasElement)
 		this.scene = new Scene()
 		this.scene.add(new AmbientLight(0xffffff))
-		this.scene.background = new Color(0xcaf0f8)
+
+		if (options.alpha) {
+			this.scene.background = new Color(0xcaf0f8)
+		}
+
 		this.model = new Model(modelData, texturePath)
 		this.scene.add(this.model.getGroup())
 

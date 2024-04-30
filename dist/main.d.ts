@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Model } from './Model';
 import { IGeoSchema } from './Schema/Model';
 export { Model } from './Model';
+export * from './Schema/Model';
+export * from './Schema/Animation';
 export interface IOptions {
     antialias?: boolean;
     width?: number;
@@ -14,10 +16,10 @@ export declare class StandaloneModelViewer {
     protected options: IOptions;
     protected renderer: WebGLRenderer;
     protected model: Model;
-    protected scene: Scene;
+    readonly scene: Scene;
     protected camera: PerspectiveCamera;
     protected renderingRequested: boolean;
-    protected controls: OrbitControls;
+    readonly controls: OrbitControls;
     readonly loadedModel: Promise<void>;
     constructor(canvasElement: HTMLCanvasElement, modelData: IGeoSchema, texturePath: string, options: IOptions);
     protected loadModel(): Promise<void>;

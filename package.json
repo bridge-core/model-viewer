@@ -1,5 +1,5 @@
 {
-	"name": "bridge-model-viewer",
+	"name": "@bridge-editor/model-viewer",
 	"version": "0.8.0",
 	"description": "A fast parser for Minecraft's Molang",
 	"directories": {

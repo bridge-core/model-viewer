@@ -1,6 +1,6 @@
 {
 	"name": "bridge-model-viewer",
-	"version": "0.7.7",
+	"version": "0.8.0",
 	"description": "A fast parser for Minecraft's Molang",
 	"directories": {
 		"lib": "lib"

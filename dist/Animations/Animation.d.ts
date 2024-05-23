@@ -1,4 +1,4 @@
-import { Molang } from 'molang';
+import { Molang } from '@bridge-editor/molang';
 import { ISingleAnimation, TBoneModifier } from '../Schema/Animation';
 import { SoundEffect } from './SoundEffect';
 import { ParticleEffect } from './ParticleEffect';

@@ -9,7 +9,7 @@ export default defineConfig({
 			fileName: (format) => `model-viewer.${format}.js`,
 		},
 		rollupOptions: {
-			external: ['molang', 'three', 'wintersky'],
+			external: ['@bridge-editor/molang', 'three', 'wintersky'],
 		},
 	},
 })

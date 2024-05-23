@@ -1,13 +1,13 @@
 import { EventDispatcher as Fe, Vector3 as I, MOUSE as F, TOUCH as D, Quaternion as fe, Spherical as ge, Vector2 as O, MathUtils as _, BufferGeometry as Te, Group as H, BufferAttribute as G, Mesh as Ae, NearestFilter as ye, MeshLambertMaterial as De, DoubleSide as we, LineBasicMaterial as He, BoxGeometry as Ge, EdgesGeometry as Xe, LineSegments as Be, TextureLoader as Ze, WebGLRenderer as Ke, PerspectiveCamera as Ve, Scene as qe, AmbientLight as Ce, Color as We, AxesHelper as $e, GridHelper as Qe, BoxHelper as Je, Box3 as et, Sphere as tt } from "three";
-import { Molang as ot } from "molang";
+import { Molang as ot } from "@bridge-editor/molang";
 import it from "wintersky";
 const be = { type: "change" }, $ = { type: "start" }, Ee = { type: "end" };
 class nt extends Fe {
   constructor(o, i) {
     super(), this.object = o, this.domElement = i, this.domElement.style.touchAction = "none", this.enabled = !0, this.target = new I(), this.minDistance = 0, this.maxDistance = 1 / 0, this.minZoom = 0, this.maxZoom = 1 / 0, this.minPolarAngle = 0, this.maxPolarAngle = Math.PI, this.minAzimuthAngle = -1 / 0, this.maxAzimuthAngle = 1 / 0, this.enableDamping = !1, this.dampingFactor = 0.05, this.enableZoom = !0, this.zoomSpeed = 1, this.enableRotate = !0, this.rotateSpeed = 1, this.enablePan = !0, this.panSpeed = 1, this.screenSpacePanning = !0, this.keyPanSpeed = 7, this.autoRotate = !1, this.autoRotateSpeed = 2, this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" }, this.mouseButtons = { LEFT: F.ROTATE, MIDDLE: F.DOLLY, RIGHT: F.PAN }, this.touches = { ONE: D.ROTATE, TWO: D.DOLLY_PAN }, this.target0 = this.target.clone(), this.position0 = this.object.position.clone(), this.zoom0 = this.object.zoom, this._domElementKeyEvents = null, this.getPolarAngle = function() {
-      return r.phi;
+      return a.phi;
     }, this.getAzimuthalAngle = function() {
-      return r.theta;
+      return a.theta;
     }, this.getDistance = function() {
       return this.object.position.distanceTo(this.target);
     }, this.listenToKeyEvents = function(t) {
@@ -17,15 +17,15 @@ class nt extends Fe {
     }, this.reset = function() {
       e.target.copy(e.target0), e.object.position.copy(e.position0), e.object.zoom = e.zoom0, e.object.updateProjectionMatrix(), e.dispatchEvent(be), e.update(), s = n.NONE;
     }, this.update = function() {
-      const t = new I(), a = new fe().setFromUnitVectors(o.up, new I(0, 1, 0)), E = a.clone().invert(), T = new I(), v = new fe(), U = 2 * Math.PI;
+      const t = new I(), r = new fe().setFromUnitVectors(o.up, new I(0, 1, 0)), E = r.clone().invert(), T = new I(), v = new fe(), U = 2 * Math.PI;
       return function() {
         const me = e.object.position;
-        t.copy(me).sub(e.target), t.applyQuaternion(a), r.setFromVector3(t), e.autoRotate && s === n.NONE && M(j()), e.enableDamping ? (r.theta += h.theta * e.dampingFactor, r.phi += h.phi * e.dampingFactor) : (r.theta += h.theta, r.phi += h.phi);
+        t.copy(me).sub(e.target), t.applyQuaternion(r), a.setFromVector3(t), e.autoRotate && s === n.NONE && M(j()), e.enableDamping ? (a.theta += h.theta * e.dampingFactor, a.phi += h.phi * e.dampingFactor) : (a.theta += h.theta, a.phi += h.phi);
         let L = e.minAzimuthAngle, N = e.maxAzimuthAngle;
-        return isFinite(L) && isFinite(N) && (L < -Math.PI ? L += U : L > Math.PI && (L -= U), N < -Math.PI ? N += U : N > Math.PI && (N -= U), L <= N ? r.theta = Math.max(L, Math.min(N, r.theta)) : r.theta = r.theta > (L + N) / 2 ? Math.max(L, r.theta) : Math.min(N, r.theta)), r.phi = Math.max(e.minPolarAngle, Math.min(e.maxPolarAngle, r.phi)), r.makeSafe(), r.radius *= l, r.radius = Math.max(e.minDistance, Math.min(e.maxDistance, r.radius)), e.enableDamping === !0 ? e.target.addScaledVector(g, e.dampingFactor) : e.target.add(g), t.setFromSpherical(r), t.applyQuaternion(E), me.copy(e.target).add(t), e.object.lookAt(e.target), e.enableDamping === !0 ? (h.theta *= 1 - e.dampingFactor, h.phi *= 1 - e.dampingFactor, g.multiplyScalar(1 - e.dampingFactor)) : (h.set(0, 0, 0), g.set(0, 0, 0)), l = 1, c || T.distanceToSquared(e.object.position) > f || 8 * (1 - v.dot(e.object.quaternion)) > f ? (e.dispatchEvent(be), T.copy(e.object.position), v.copy(e.object.quaternion), c = !1, !0) : !1;
+        return isFinite(L) && isFinite(N) && (L < -Math.PI ? L += U : L > Math.PI && (L -= U), N < -Math.PI ? N += U : N > Math.PI && (N -= U), L <= N ? a.theta = Math.max(L, Math.min(N, a.theta)) : a.theta = a.theta > (L + N) / 2 ? Math.max(L, a.theta) : Math.min(N, a.theta)), a.phi = Math.max(e.minPolarAngle, Math.min(e.maxPolarAngle, a.phi)), a.makeSafe(), a.radius *= l, a.radius = Math.max(e.minDistance, Math.min(e.maxDistance, a.radius)), e.enableDamping === !0 ? e.target.addScaledVector(g, e.dampingFactor) : e.target.add(g), t.setFromSpherical(a), t.applyQuaternion(E), me.copy(e.target).add(t), e.object.lookAt(e.target), e.enableDamping === !0 ? (h.theta *= 1 - e.dampingFactor, h.phi *= 1 - e.dampingFactor, g.multiplyScalar(1 - e.dampingFactor)) : (h.set(0, 0, 0), g.set(0, 0, 0)), l = 1, c || T.distanceToSquared(e.object.position) > f || 8 * (1 - v.dot(e.object.quaternion)) > f ? (e.dispatchEvent(be), T.copy(e.object.position), v.copy(e.object.quaternion), c = !1, !0) : !1;
       };
     }(), this.dispose = function() {
-      e.domElement.removeEventListener("contextmenu", ue), e.domElement.removeEventListener("pointerdown", ae), e.domElement.removeEventListener("pointercancel", ce), e.domElement.removeEventListener("wheel", le), e.domElement.removeEventListener("pointermove", q), e.domElement.removeEventListener("pointerup", C), e._domElementKeyEvents !== null && e._domElementKeyEvents.removeEventListener("keydown", he);
+      e.domElement.removeEventListener("contextmenu", ue), e.domElement.removeEventListener("pointerdown", re), e.domElement.removeEventListener("pointercancel", ce), e.domElement.removeEventListener("wheel", le), e.domElement.removeEventListener("pointermove", q), e.domElement.removeEventListener("pointerup", C), e._domElementKeyEvents !== null && e._domElementKeyEvents.removeEventListener("keydown", he);
     };
     const e = this, n = {
       NONE: -1,
@@ -38,7 +38,7 @@ class nt extends Fe {
       TOUCH_DOLLY_ROTATE: 6
     };
     let s = n.NONE;
-    const f = 1e-6, r = new ge(), h = new ge();
+    const f = 1e-6, a = new ge(), h = new ge();
     let l = 1;
     const g = new I();
     let c = !1;
@@ -95,8 +95,8 @@ class nt extends Fe {
     }
     function xe(t) {
       y.set(t.clientX, t.clientY), b.subVectors(y, p).multiplyScalar(e.rotateSpeed);
-      const a = e.domElement;
-      M(2 * Math.PI * b.x / a.clientHeight), z(2 * Math.PI * b.y / a.clientHeight), p.copy(y), e.update();
+      const r = e.domElement;
+      M(2 * Math.PI * b.x / r.clientHeight), z(2 * Math.PI * b.y / r.clientHeight), p.copy(y), e.update();
     }
     function ke(t) {
       P.set(t.clientX, t.clientY), R.subVectors(P, m), R.y > 0 ? V(x()) : R.y < 0 && Q(x()), m.copy(P), e.update();
@@ -108,41 +108,41 @@ class nt extends Fe {
       t.deltaY < 0 ? Q(x()) : t.deltaY > 0 && V(x()), e.update();
     }
     function Oe(t) {
-      let a = !1;
+      let r = !1;
       switch (t.code) {
         case e.keys.UP:
-          t.ctrlKey || t.metaKey || t.shiftKey ? z(2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(0, e.keyPanSpeed), a = !0;
+          t.ctrlKey || t.metaKey || t.shiftKey ? z(2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(0, e.keyPanSpeed), r = !0;
           break;
         case e.keys.BOTTOM:
-          t.ctrlKey || t.metaKey || t.shiftKey ? z(-2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(0, -e.keyPanSpeed), a = !0;
+          t.ctrlKey || t.metaKey || t.shiftKey ? z(-2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(0, -e.keyPanSpeed), r = !0;
           break;
         case e.keys.LEFT:
-          t.ctrlKey || t.metaKey || t.shiftKey ? M(2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(e.keyPanSpeed, 0), a = !0;
+          t.ctrlKey || t.metaKey || t.shiftKey ? M(2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(e.keyPanSpeed, 0), r = !0;
           break;
         case e.keys.RIGHT:
-          t.ctrlKey || t.metaKey || t.shiftKey ? M(-2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(-e.keyPanSpeed, 0), a = !0;
+          t.ctrlKey || t.metaKey || t.shiftKey ? M(-2 * Math.PI * e.rotateSpeed / e.domElement.clientHeight) : k(-e.keyPanSpeed, 0), r = !0;
           break;
       }
-      a && (t.preventDefault(), e.update());
+      r && (t.preventDefault(), e.update());
     }
     function te() {
       if (u.length === 1)
         p.set(u[0].pageX, u[0].pageY);
       else {
-        const t = 0.5 * (u[0].pageX + u[1].pageX), a = 0.5 * (u[0].pageY + u[1].pageY);
-        p.set(t, a);
+        const t = 0.5 * (u[0].pageX + u[1].pageX), r = 0.5 * (u[0].pageY + u[1].pageY);
+        p.set(t, r);
       }
     }
     function oe() {
       if (u.length === 1)
         A.set(u[0].pageX, u[0].pageY);
       else {
-        const t = 0.5 * (u[0].pageX + u[1].pageX), a = 0.5 * (u[0].pageY + u[1].pageY);
-        A.set(t, a);
+        const t = 0.5 * (u[0].pageX + u[1].pageX), r = 0.5 * (u[0].pageY + u[1].pageY);
+        A.set(t, r);
       }
     }
     function ie() {
-      const t = u[0].pageX - u[1].pageX, a = u[0].pageY - u[1].pageY, E = Math.sqrt(t * t + a * a);
+      const t = u[0].pageX - u[1].pageX, r = u[0].pageY - u[1].pageY, E = Math.sqrt(t * t + r * r);
       m.set(0, E);
     }
     function Se() {
@@ -159,29 +159,29 @@ class nt extends Fe {
         y.set(T, v);
       }
       b.subVectors(y, p).multiplyScalar(e.rotateSpeed);
-      const a = e.domElement;
-      M(2 * Math.PI * b.x / a.clientHeight), z(2 * Math.PI * b.y / a.clientHeight), p.copy(y);
+      const r = e.domElement;
+      M(2 * Math.PI * b.x / r.clientHeight), z(2 * Math.PI * b.y / r.clientHeight), p.copy(y);
     }
     function se(t) {
       if (u.length === 1)
         d.set(t.pageX, t.pageY);
       else {
-        const a = W(t), E = 0.5 * (t.pageX + a.x), T = 0.5 * (t.pageY + a.y);
+        const r = W(t), E = 0.5 * (t.pageX + r.x), T = 0.5 * (t.pageY + r.y);
         d.set(E, T);
       }
       w.subVectors(d, A).multiplyScalar(e.panSpeed), k(w.x, w.y), A.copy(d);
     }
-    function re(t) {
-      const a = W(t), E = t.pageX - a.x, T = t.pageY - a.y, v = Math.sqrt(E * E + T * T);
+    function ae(t) {
+      const r = W(t), E = t.pageX - r.x, T = t.pageY - r.y, v = Math.sqrt(E * E + T * T);
       P.set(0, v), R.set(0, Math.pow(P.y / m.y, e.zoomSpeed)), V(R.y), m.copy(P);
     }
     function Ne(t) {
-      e.enableZoom && re(t), e.enablePan && se(t);
+      e.enableZoom && ae(t), e.enablePan && se(t);
     }
     function je(t) {
-      e.enableZoom && re(t), e.enableRotate && ne(t);
+      e.enableZoom && ae(t), e.enableRotate && ne(t);
     }
-    function ae(t) {
+    function re(t) {
       e.enabled !== !1 && (u.length === 0 && (e.domElement.setPointerCapture(t.pointerId), e.domElement.addEventListener("pointermove", q), e.domElement.addEventListener("pointerup", C)), Ue(t), t.pointerType === "touch" ? Ye(t) : Ie(t));
     }
     function q(t) {
@@ -194,21 +194,21 @@ class nt extends Fe {
       de(t);
     }
     function Ie(t) {
-      let a;
+      let r;
       switch (t.button) {
         case 0:
-          a = e.mouseButtons.LEFT;
+          r = e.mouseButtons.LEFT;
           break;
         case 1:
-          a = e.mouseButtons.MIDDLE;
+          r = e.mouseButtons.MIDDLE;
           break;
         case 2:
-          a = e.mouseButtons.RIGHT;
+          r = e.mouseButtons.RIGHT;
           break;
         default:
-          a = -1;
+          r = -1;
       }
-      switch (a) {
+      switch (r) {
         case F.DOLLY:
           if (e.enableZoom === !1)
             return;
@@ -339,21 +339,21 @@ class nt extends Fe {
     }
     function de(t) {
       delete Y[t.pointerId];
-      for (let a = 0; a < u.length; a++)
-        if (u[a].pointerId == t.pointerId) {
-          u.splice(a, 1);
+      for (let r = 0; r < u.length; r++)
+        if (u[r].pointerId == t.pointerId) {
+          u.splice(r, 1);
           return;
         }
     }
     function pe(t) {
-      let a = Y[t.pointerId];
-      a === void 0 && (a = new O(), Y[t.pointerId] = a), a.set(t.pageX, t.pageY);
+      let r = Y[t.pointerId];
+      r === void 0 && (r = new O(), Y[t.pointerId] = r), r.set(t.pageX, t.pageY);
     }
     function W(t) {
-      const a = t.pointerId === u[0].pointerId ? u[1] : u[0];
-      return Y[a.pointerId];
+      const r = t.pointerId === u[0].pointerId ? u[1] : u[0];
+      return Y[r.pointerId];
     }
-    e.domElement.addEventListener("contextmenu", ue), e.domElement.addEventListener("pointerdown", ae), e.domElement.addEventListener("pointercancel", ce), e.domElement.addEventListener("wheel", le, { passive: !1 }), this.update();
+    e.domElement.addEventListener("contextmenu", ue), e.domElement.addEventListener("pointerdown", re), e.domElement.addEventListener("pointercancel", ce), e.domElement.addEventListener("wheel", le, { passive: !1 }), this.update();
   }
 }
 class Me {
@@ -384,7 +384,7 @@ class st extends Me {
     );
   }
 }
-class rt extends Me {
+class at extends Me {
   constructor() {
     super(...arguments), this.disposables = [];
   }
@@ -394,12 +394,12 @@ class rt extends Me {
     for (const { locator: i, effect: e, pre_effect_script: n } of o) {
       if (!e)
         return;
-      const s = this.animation.getAnimator(), f = s.getModel(), r = s.getEmitter(e);
-      if (!r || !s.winterskyScene)
+      const s = this.animation.getAnimator(), f = s.getModel(), a = s.getEmitter(e);
+      if (!a || !s.winterskyScene)
         return;
       const h = i ? f.getLocator(i) : void 0, l = new it.Emitter(
         s.winterskyScene,
-        r,
+        a,
         {
           parent_mode: h ? "locator" : "entity",
           loop_mode: "once"
@@ -426,7 +426,7 @@ class rt extends Me {
     this.disposables.forEach((o) => o.dispose()), this.disposables = [];
   }
 }
-class at {
+class rt {
   constructor(o, i) {
     this.animator = o, this.animationData = i, this.startTimestamp = 0, this.lastFrameTimestamp = 0, this.isRunning = !1, this.env = {
       "query.anim_time": () => this.currentTime,
@@ -437,7 +437,7 @@ class at {
     }), this.soundEffects = new st(
       this,
       this.animationData.sound_effects ?? {}
-    ), this.particleEffects = new rt(
+    ), this.particleEffects = new at(
       this,
       this.animationData.particle_effects ?? {}
     );
@@ -473,14 +473,14 @@ class at {
                 );
               throw new Error("Format not supported yet");
             } else {
-              let [f, r] = i[_.euclideanModulo(e + 1, i.length)], h = f - n;
-              if (Array.isArray(s) && Array.isArray(r))
+              let [f, a] = i[_.euclideanModulo(e + 1, i.length)], h = f - n;
+              if (Array.isArray(s) && Array.isArray(a))
                 return s = s.map(
                   (l) => typeof l == "string" ? this.execute(l) : l
-                ), r = r.map(
+                ), a = a.map(
                   (l) => typeof l == "string" ? this.execute(l) : l
                 ), s.map(
-                  (l, g) => l + (r[g] - l) / h * (this.currentTime - n)
+                  (l, g) => l + (a[g] - l) / h * (this.currentTime - n)
                 );
               throw new Error("Format not supported yet");
             }
@@ -496,15 +496,15 @@ class at {
       const e = o.get(i);
       if (!e)
         continue;
-      const { position: n, rotation: s, scale: f } = this.animationData.bones[i], [r, h, l] = [
+      const { position: n, rotation: s, scale: f } = this.animationData.bones[i], [a, h, l] = [
         n,
         s,
         f
       ].map((g) => this.parseBoneModifier(g));
-      if (r) {
+      if (a) {
         const g = e.position.toArray();
         e.position.set(
-          ...r.map(
+          ...a.map(
             (c, p) => (p === 0 ? -1 : 1) * c + g[p]
           )
         );
@@ -563,7 +563,7 @@ class ct {
     this.winterskyScene = o;
   }
   addAnimation(o, i) {
-    this.animations.set(o, new at(this, i));
+    this.animations.set(o, new rt(this, i));
   }
   addEmitter(o, i) {
     this.particleEmitters.set(o, i);
@@ -707,7 +707,7 @@ class ht {
         s
       ],
       mirror: f,
-      width: r,
+      width: a,
       height: h,
       depth: l
     } = o, [g, c] = [
@@ -734,14 +734,14 @@ class ht {
         uv: k
       } of R)
         this.positions.push(
-          (f ? -z : z) * r,
+          (f ? -z : z) * a,
           X * h,
           B * l
         ), this.normals.push(...P), this.uvs.push(
           //Base offset of the current cube
           (b + //Horizontal offset for the current face
-          (+(u > 0) + +(u > 2)) * Math.floor(x ?? l) + +(u > 1) * Math.floor(x ?? r) + //Face corner specific offsets
-          k[0] * Math.floor(m === "west" || m === "east" ? x ?? l : x ?? r) + (k[0] === 0 ? K : -K)) / (g / (y ? 1 : n)),
+          (+(u > 0) + +(u > 2)) * Math.floor(x ?? l) + +(u > 1) * Math.floor(x ?? a) + //Face corner specific offsets
+          k[0] * Math.floor(m === "west" || m === "east" ? x ?? l : x ?? a) + (k[0] === 0 ? K : -K)) / (g / (y ? 1 : n)),
           //Align uv to top left corner
           1 - //Base offset of the current cube
           (A + //Vertical offset for the current face
@@ -771,15 +771,15 @@ class ht {
     depth: n,
     pivot: s,
     rotation: f,
-    origin: r,
+    origin: a,
     inflate: h = 0
   }) {
     const l = h * 2 + i, g = new Ae(this.geometry, o);
     if (this.group.rotation.order = "ZYX", s === void 0 && (s = [l / 2, e / 2, n / 2]), this.group.add(g), f) {
       this.group.position.set(-s[0], s[1], s[2]), g.position.set(
-        -r[0] - l / 2 + s[0] + h,
-        r[1] - s[1] - h,
-        r[2] - s[2] - h
+        -a[0] - l / 2 + s[0] + h,
+        a[1] - s[1] - h,
+        a[2] - s[2] - h
       );
       const [c, p, y] = f;
       this.group.rotation.set(
@@ -789,9 +789,9 @@ class ht {
       );
     } else
       this.group.position.set(
-        -r[0] - l / 2 + h,
-        r[1] - h,
-        r[2] - h
+        -a[0] - l / 2 + h,
+        a[1] - h,
+        a[2] - h
       );
     h && this.group.scale.set(
       i !== 0 ? 1 + h / (i / 2) : 1,
@@ -808,19 +808,19 @@ class ut {
     var e, n, s, f;
     if (this.positions = [], this.indices = [], this.normals = [], this.uvs = [], this.geometry = new Te(), this.group = new H(), !Array.isArray(o.polys))
       throw new Error("Format not supported yet!");
-    o.normalized_uvs || (o.uvs = (e = o == null ? void 0 : o.uvs) == null ? void 0 : e.map(([r, h]) => [
-      r / o.textureSize[0],
+    o.normalized_uvs || (o.uvs = (e = o == null ? void 0 : o.uvs) == null ? void 0 : e.map(([a, h]) => [
+      a / o.textureSize[0],
       h / o.textureSize[1]
     ]));
     let i = 0;
-    for (const r of o.polys) {
-      for (const [h, l, g] of r)
+    for (const a of o.polys) {
+      for (const [h, l, g] of a)
         this.positions.push(
           ...((n = o == null ? void 0 : o.positions) == null ? void 0 : n[h]) ?? []
         ), this.normals.push(
           ...((s = o == null ? void 0 : o.normals) == null ? void 0 : s[l]) ?? []
         ), this.uvs.push(...((f = o == null ? void 0 : o.uvs) == null ? void 0 : f[g]) ?? []);
-      r.length === 3 ? this.indices.push(i, i + 1, i + 2) : this.indices.push(i + 2, i + 1, i, i + 2, i, i + 3), i += r.length;
+      a.length === 3 ? this.indices.push(i, i + 1, i + 2) : this.indices.push(i + 2, i + 1, i, i + 2, i, i + 3), i += a.length;
     }
     this.createGeometry(), this.createMesh(o);
   }
@@ -852,9 +852,9 @@ class dt {
     this.model = new H(), this.model.name = e;
   }
   async create() {
-    var r, h, l, g;
+    var a, h, l, g;
     const o = this.modelData, i = await this.loadTexture(this.texturePath), e = [
-      ((r = o == null ? void 0 : o.description) == null ? void 0 : r.texture_width) ?? i.image.width,
+      ((a = o == null ? void 0 : o.description) == null ? void 0 : a.texture_width) ?? i.image.width,
       ((h = o == null ? void 0 : o.description) == null ? void 0 : h.texture_height) ?? i.image.height
     ], n = [
       i.image.width / e[0],
@@ -951,10 +951,10 @@ class dt {
       side: we,
       color: o,
       linewidth: 20
-    }), s = new Ge(e.x, e.y, e.z), f = new Xe(s), r = new Be(f, n);
-    return r.position.set(i.x, i.y + e.y / 2, i.z), r.name = "helperBox", this.model.add(r), {
+    }), s = new Ge(e.x, e.y, e.z), f = new Xe(s), a = new Be(f, n);
+    return a.position.set(i.x, i.y + e.y / 2, i.z), a.name = "helperBox", this.model.add(a), {
       dispose: () => {
-        this.model.remove(r);
+        this.model.remove(a);
       }
     };
   }
@@ -984,8 +984,9 @@ class gt {
   constructor(o, i, e, n) {
     this.canvasElement = o, this.texturePath = e, this.options = n, this.renderingRequested = !1, this.renderer = new Ke({
       canvas: o,
+      alpha: n.alpha ?? !1,
       antialias: n.antialias ?? !1
-    }), this.renderer.setPixelRatio(window.devicePixelRatio), this.camera = new Ve(70, 2, 0.1, 1e3), this.camera.position.x = -20, this.camera.position.y = 20, this.camera.position.z = -20, this.camera.updateProjectionMatrix(), this.controls = new nt(this.camera, o), this.scene = new qe(), this.scene.add(new Ce(16777215)), this.scene.background = new We(13299960), this.model = new dt(i, e), this.scene.add(this.model.getGroup()), window.addEventListener("resize", this.onResize.bind(this)), this.controls.addEventListener("change", () => this.requestRendering()), this.onResize(), this.loadedModel = this.loadModel().then(() => this.requestRendering());
+    }), this.renderer.setPixelRatio(window.devicePixelRatio), this.camera = new Ve(70, 2, 0.1, 1e3), this.camera.position.x = -20, this.camera.position.y = 20, this.camera.position.z = -20, this.camera.updateProjectionMatrix(), this.controls = new nt(this.camera, o), this.scene = new qe(), this.scene.add(new Ce(16777215)), n.alpha && (this.scene.background = new We(13299960)), this.model = new dt(i, e), this.scene.add(this.model.getGroup()), window.addEventListener("resize", this.onResize.bind(this)), this.controls.addEventListener("change", () => this.requestRendering()), this.onResize(), this.loadedModel = this.loadModel().then(() => this.requestRendering());
   }
   async loadModel() {
     await this.model.create();

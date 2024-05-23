@@ -1,4 +1,4 @@
-import { Molang } from 'molang'
+import { Molang } from '@bridge-editor/molang'
 import {
 	ISingleAnimation,
 	TBoneModifier,
@@ -157,7 +157,8 @@ export class Animation {
 						.map((n) => MathUtils.degToRad(n))
 						.map(
 							(val, i) =>
-								(currentRotation[i] as number) + (i === 2 ? val : -val)
+								(currentRotation[i] as number) +
+								(i === 2 ? val : -val)
 						) as [number, number, number])
 				)
 			}

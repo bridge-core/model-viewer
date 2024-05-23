@@ -6,6 +6,7 @@ export { Model } from './Model';
 export * from './Schema/Model';
 export * from './Schema/Animation';
 export interface IOptions {
+    alpha?: boolean;
     antialias?: boolean;
     width?: number;
     height?: number;
